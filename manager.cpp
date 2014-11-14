@@ -157,8 +157,12 @@ void Manager::update() {
   //  sprites[i]->update(ticks);
     if (i >= fistStartPos && fistStartPos !=0)
       sprites[i]->update(ticks, sprites[0]);//fist update should added with
-    else 
+    else {
       sprites[i]->update(ticks);
+      /*if (sprites[i]->X() == sprites[0]->X()) //still something wrong with it
+        sprites.erase(sprites);*/
+    }
+
   }
 
   if ( makeVideo && frameCount < frameMax ) {
@@ -267,7 +271,7 @@ void Manager::play() {
             if (sprites[currentSprite] -> getFaceDirection() == 1){
               sprites.push_back( new Bullet("singleFistRight",singlePostion) );
               sprites[singlePostion] -> X( sprites[currentSprite] -> X() + 100);
-              sprites[singlePostion] -> Y( sprites[currentSprite] -> Y() + 60);
+              sprites[singlePostion] -> Y( sprites[currentSprite] -> Y() + 50);
               sprites[singlePostion] -> velocityX( 500 );
               sprites[singlePostion] -> velocityY( 0 );
               fistStartPos = singlePostion;
@@ -277,7 +281,7 @@ void Manager::play() {
               // equal to -1
               sprites.push_back( new Bullet("singleFistLeft",singlePostion) );
               sprites[singlePostion] -> X( sprites[currentSprite] -> X() + 100);
-              sprites[singlePostion] -> Y( sprites[currentSprite] -> Y() + 60);
+              sprites[singlePostion] -> Y( sprites[currentSprite] -> Y() + 50);
               sprites[singlePostion] -> velocityX( -500 );
               sprites[singlePostion] -> velocityY( 0 );
               fistStartPos = singlePostion;

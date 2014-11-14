@@ -81,21 +81,23 @@ void Bullet::update(Uint32 ticks) {
 void Bullet::update(Uint32 ticks, Drawable *BrotherBullet){
   Vector2f incr = getVelocity() * static_cast<float>(ticks) * 0.001;
   setPosition(getPosition() + incr);
-  //float alpha = (Y() - )
 
+  float alpha = atan( ( Y() - (BrotherBullet->Y() + 50) )/( X() - (BrotherBullet->X() + 100) ) );
+  //std::cout<<alpha<<std::endl; 
 
   if ( abs( X() - BrotherBullet-> X() ) > getFistRange() )
   {
     if( velocityX() > 0 )
     {
       frame = FrameFactory::getInstance().getFrame("singleFistLeft");
-
-      velocityX(-500);
+      velocityY(-500 * sin(alpha));
+      velocityX(-500 * cos(alpha));
     }
     else
     {
       frame = FrameFactory::getInstance().getFrame("singleFistRight");
-      velocityX(500);
+      velocityY(500 * sin(alpha));
+      velocityX(500 * cos(alpha));
     }
   }
 }
