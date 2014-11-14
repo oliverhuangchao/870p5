@@ -116,8 +116,6 @@ void Rayman::update(Uint32 ticks) {
         } 
         if ( getIsCrawl() ){//keep crawling postion
             if(!alreadyCrawling){
-               std::cout<<"b"<<std::endl;
-
                 if (getFaceDirection() == -1)
                     frames = FrameFactory::getInstance().getFrames(frameName, "standToLeftCrawl");
                 if (getFaceDirection() == 1)
