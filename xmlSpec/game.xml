@@ -1,0 +1,235 @@
+<?xml version = "1.0"?>
+<GameData>
+<!-- screenTitle is also used to identify you and your animation. 
+     So make sure to include your name as part of the screenTitle -->
+<screenTitle>Chao Huang's Fly Pumpkin</screenTitle>
+<maxStringSize>50</maxStringSize>
+
+<frameCap>60</frameCap>
+<framesAreCapped>true</framesAreCapped>
+
+<frameMax>200</frameMax>
+<username>chaoh</username>
+
+<view>
+  <width>800</width>
+  <height>800</height>
+</view>
+
+<world>
+  <width>5000</width>
+  <height>960</height>
+</world>
+
+<conflict>50</conflict>
+
+<myhud>
+  <start>
+    <top>10</top>
+    <left>10</left>
+    <right>320</right>
+  </start>
+</myhud>
+
+
+
+<front>
+  <file>images/land.png</file>
+  <red>255</red>
+  <green>255</green>
+  <blue>255</blue>
+  <factor>1</factor>
+  <srcX>0</srcX>
+  <srcY>0</srcY>
+  <width>1280</width>
+  <height>960</height>
+  <transparency>true</transparency>
+</front>
+
+<back>
+  <file>images/cloud.png</file>
+  <red>255</red>
+  <green>255</green>
+  <blue>255</blue>
+  <factor>5</factor>
+  <srcX>0</srcX>
+  <srcY>0</srcY>
+  <width>1280</width>
+  <height>960</height>
+  <transparency>true</transparency>
+</back>
+
+<font name="font">
+  <file>font/dyslexic-bold.otf</file>
+  <size>16</size>
+  <red>0</red>
+  <green>0</green>
+  <blue>0</blue>
+  <unused>0</unused>
+</font>
+
+<pinkGear>
+  <file>images/pinkGear.png</file>
+  <count>2</count>
+  <frames>8</frames>
+  <frameInterval>300</frameInterval>
+  <srcX>0</srcX>
+  <srcY>0</srcY>
+  <startLoc x="120" y="100"/> 
+  <speedX>200</speedX>
+  <speedY>0</speedY>
+  <transparency>false</transparency>
+  <width>400</width>
+  <height>200</height>
+</pinkGear>
+
+
+<Rayman>
+  <count>1</count>
+  <srcX>0</srcX>
+  <srcY>0</srcY>
+  <startLoc x="120" y="700"/> 
+  <speedX>300</speedX>
+  <speedY>0</speedY>
+  <transparency>false</transparency>
+  
+  <runRight>
+    <file>images/runRight.png</file>
+    <frames>10</frames>
+    <frameInterval>200</frameInterval>
+    <width>200</width>
+    <height>250</height>
+  </runRight>
+
+  <runLeft>
+    <file>images/runLeft.png</file>
+    <frames>10</frames>
+    <frameInterval>200</frameInterval>
+    <width>200</width>
+    <height>250</height>
+  </runLeft>
+
+  <standLeft>
+    <file>images/standLeft.png</file>
+    <frames>20</frames>
+    <frameInterval>1000</frameInterval>
+    <width>200</width>
+    <height>200</height>
+  </standLeft>
+
+  <standRight>
+    <file>images/standRight.png</file>
+    <frames>15</frames>
+    <frameInterval>1000</frameInterval>
+    <width>200</width>
+    <height>200</height>
+  </standRight>
+
+  <standToLeftCrawl>
+    <file>images/standToLeftCrawl.png</file>
+    <frames>4</frames>
+    <frameInterval>100</frameInterval>
+    <width>200</width>
+    <height>200</height>
+  </standToLeftCrawl>
+
+  <standToRightCrawl>
+    <file>images/standToRightCrawl.png</file>
+    <frames>4</frames>
+    <frameInterval>100</frameInterval>
+    <width>200</width>
+    <height>200</height>
+  </standToRightCrawl>
+
+  <keepLeftCrawl>
+    <file>images/keepLeftCrawl.png</file>
+    <frames>1</frames>
+    <frameInterval>100</frameInterval>
+    <width>200</width>
+    <height>200</height>
+  </keepLeftCrawl>
+
+  <keepRightCrawl>
+    <file>images/keepRightCrawl.png</file>
+    <frames>1</frames>
+    <frameInterval>100</frameInterval>
+    <width>200</width>
+    <height>200</height>
+  </keepRightCrawl>
+
+  <crawlLeft>
+    <file>images/CrawlToLeft.png</file>
+    <frames>9</frames>
+    <frameInterval>100</frameInterval>
+    <width>200</width>
+    <height>200</height>
+  </crawlLeft>
+
+  <crawlRight>
+    <file>images/CrawlToRight.png</file>
+    <frames>9</frames>
+    <frameInterval>100</frameInterval>
+    <width>200</width>
+    <height>200</height>
+  </crawlRight>
+
+  <jumpLeft>
+    <file>images/JumpLeft.png</file>
+    <frames>11</frames>
+    <frameInterval>100</frameInterval>
+    <width>200</width>
+    <height>200</height>
+  </jumpLeft>
+
+  <jumpRight>
+    <file>images/JumpRight.png</file>
+    <frames>11</frames>
+    <frameInterval>100</frameInterval>
+    <width>200</width>
+    <height>200</height>
+  </jumpRight>
+
+  <fistRight>
+    <file>images/fistRight.png</file>
+    <frames>13</frames>
+    <frameInterval>100</frameInterval>
+    <width>300</width>
+    <height>200</height>
+  </fistRight>
+
+  <fistLeft>
+    <file>images/fistLeft.png</file>
+    <frames>13</frames>
+    <frameInterval>100</frameInterval>
+    <width>300</width>
+    <height>200</height>
+  </fistLeft>
+
+</Rayman>
+
+<singleFistLeft>
+  <file>images/singleFistLeft.png</file>
+  <frames>1</frames>
+  <frameInterval>100</frameInterval>
+  <width>64</width>
+  <height>64</height>
+  <srcX>0</srcX>
+  <srcY>0</srcY>
+  <transparency>false</transparency>
+  <fistRange>300</fistRange>
+</singleFistLeft>
+
+<singleFistRight>
+  <file>images/singleFistRight.png</file>
+  <frames>1</frames>
+  <frameInterval>100</frameInterval>
+  <width>64</width>
+  <height>64</height>
+  <srcX>0</srcX>
+  <srcY>0</srcY>
+  <fistRange>300</fistRange>
+  <transparency>false</transparency>
+</singleFistRight>  
+
+
+</GameData>

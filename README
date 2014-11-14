@@ -1,0 +1,45 @@
+Name: Chao Huang
+
+Clemson Email Address: chaoh@g.clemson.edu
+
+Cpsc: 8700. Software engineering
+
+Project No:	5
+
+Project Due date:	Nov. 09th, 2014
+
+--------------------------------------------
+
+Project basic description:
+
+This project is just the begining of my final work. 
+1. I add two different sprite this time: pinkGear which is a flying bird and Rayman which is our hero.
+2. Parallax scrolling. So the tree and sky can move seperately.
+3. huds. You can press 'm' to see how to operate this game
+
+*****************************
+1. Background
+
+In this project, I want to reshow my previous game named "Rayman".  That is a great game and gives me a happy 
+childhood. I really want to thanks Ubisoft and their hero 'Rayman'. Also I should thanks Dr. Malloy. It is his great effort that teaches me how to do vedio games.
+
+So this time, I want to use my power to implement it again as a kind of souvenir.
+
+The figure name is 'Rayman'.
+*****************************
+2. How does he play
+run left: press 'a'
+run right: press 'd'
+jump: press 'w'
+crawl: press 'd'
+
+*****************************
+3. furture works
+a. He can punch his fist to his enemy (maybe achieve it in the furture work)
+b. The background can changed which means the user can choose the background. Each background should represent different motif. 
+c. What is the style of the game? Our hero can use his fist and jump abaility to get to the final gate to win the success.
+
+
+PS:
+
+1. The hero Rayman I get from 'http://www.spriters-resource.com/game_boy_advance/raymanadv/sheet/24892/'
