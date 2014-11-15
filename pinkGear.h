@@ -7,8 +7,7 @@ class pinkGear : public Drawable {
 public:
   pinkGear(const std::string&,const int);
   pinkGear(const std::string&, const Vector2f& pos, const Vector2f& vel, const int);
-  pinkGear(const std::string&, 
-         const Vector2f& pos, const Vector2f& vel, const Frame*,const int);
+  pinkGear(const std::string&, const Vector2f& pos, const Vector2f& vel, const Frame*,const int);
   pinkGear(const pinkGear& s);
   virtual ~pinkGear() { } 
   pinkGear& operator=(const pinkGear&);

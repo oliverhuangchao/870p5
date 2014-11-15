@@ -41,7 +41,7 @@ private:
 
   int fistStartPos;//the order number of the fist
   bool fistReadyToTurn;//fist ready to turn
-
+  bool alreadyHit;//whether the fist already touch the pinkGear;
 
   int frameCount;
   const std::string username;

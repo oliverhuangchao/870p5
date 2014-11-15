@@ -71,16 +71,15 @@
 <pinkGear>
   <file>images/pinkGear.png</file>
   <count>1</count>
-  <frames>8</frames>
-  <frameInterval>300</frameInterval>
   <srcX>0</srcX>
   <srcY>0</srcY>
-  <startLoc x="300" y="300"/> 
+  <startLoc x="500" y="500"/> 
   <speedX>200</speedX>
   <speedY>0</speedY>
   <transparency>false</transparency>
-  <width>400</width>
-  <height>200</height>
+  <width>120</width>
+  <height>80</height>
+  <moveRange>150</moveRange>
 </pinkGear>
 
 

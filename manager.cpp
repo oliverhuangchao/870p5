@@ -9,6 +9,7 @@
 #include "Rayman.h"
 #include "aaline.h"
 #include "Bullet.h"
+#include "explodingSprite.h"
 #include <cmath>
 
 
@@ -45,6 +46,7 @@ stopWatch_Begin(0),
 stopWatch_End(0),
 fistStartPos(0),
 fistReadyToTurn(false),
+alreadyHit(false),
 
 frameCount( 0 ),
 username(  Gamedata::getInstance().getXmlStr("username") ),
@@ -154,11 +156,42 @@ void Manager::update() {
     
   Uint32 ticks = clock.getElapsedTicks();
   
-  for (unsigned int i = 0; i < sprites.size(); ++i){ //the fist sprite should update another sprite
-  //  sprites[i]->update(ticks);
+  sprites[0]->update(ticks);//update our hero
+
+  for (unsigned int i = 1; i < sprites.size(); ++i){// update pinkGear
+    
+    if ( fistStartPos !=0 && i >= fistStartPos){
+      sprites[i]->update(ticks, sprites[0]);
+
+      if( abs(sprites[i]->X() - sprites[0]->X()) > sprites[i]->getFistRange() ){
+          fistReadyToTurn = true;
+      }
+
+      if( spriteConflict(sprites[i],sprites[0]) && fistReadyToTurn){
+        sprites.erase(sprites.begin() + i);
+        fistStartPos = 0;
+        fistReadyToTurn = false;
+        singlePostion--;
+      }
+    }
+    else{
+      sprites[i]->update(ticks);
+      if (spriteConflict(sprites[i], sprites[fistStartPos]) && !alreadyHit){
+        std::cout<<"hit the pinkGear"<<std::endl;
+        Drawable *tmp = sprites[i];
+        sprites[i] = new explodingSprite(sprites[i]);
+        alreadyHit = true;
+        delete tmp;
+      }
+    }
+  }
+/*
+  for (unsigned int i = 1; i < sprites.size(); ++i){ //the fist sprite should update another sprite
+    
+    //fist update should added with 
     if (i >= fistStartPos && fistStartPos != 0){ 
       if(fistStartPos !=0){
-          sprites[i]->update(ticks, sprites[0]);//fist update should added with 
+          sprites[i]->update(ticks, sprites[0]);
 
           if( abs(sprites[i]->X() - sprites[0]->X()) > sprites[i]->getFistRange() ){
               fistReadyToTurn = true;
@@ -175,22 +208,20 @@ void Manager::update() {
     else{
         sprites[i]->update(ticks);// other sprite update
     }
-
-  }
+*/
 
   if ( makeVideo && frameCount < frameMax ) {
     makeFrame();
   }
-
 
   viewport.update(); 
 }
 
 bool Manager::spriteConflict( Drawable* multi, Drawable* single ){
   if ( getDistance(multi->X()+multi->getFrameWidth()/2, multi->Y()+multi->getFrameHeight()/2, single->X()+single->getFrameWidth()/2,single->Y() + single->getFrameHeight()/2, 100)){
-    single->setCatched(true);
-    single->setFrameFollower(multi->getFrameNumber());
-    multi->setTotalFollowers(multi->getTotalFollowers()+1);
+    //single->setCatched(true);
+    //single->setFrameFollower(multi->getFrameNumber());
+   // multi->setTotalFollowers(multi->getTotalFollowers()+1);
     return true;
   }
   else
@@ -284,7 +315,7 @@ void Manager::play() {
               sprites[singlePostion] -> setFaceDirection(1);
               sprites[singlePostion] -> X( sprites[currentSprite] -> X() + 50);
               sprites[singlePostion] -> Y( sprites[currentSprite] -> Y() + 80);
-              sprites[singlePostion] -> velocityX( 500 );
+              sprites[singlePostion] -> velocityX( 300 );
               sprites[singlePostion] -> velocityY( 0 );
               fistStartPos = singlePostion;
               ++singlePostion;
@@ -294,7 +325,7 @@ void Manager::play() {
               sprites[singlePostion] -> setFaceDirection(-1);
               sprites[singlePostion] -> X( sprites[currentSprite] -> X() + 50);
               sprites[singlePostion] -> Y( sprites[currentSprite] -> Y() + 80);
-              sprites[singlePostion] -> velocityX( -500 );
+              sprites[singlePostion] -> velocityX( -300 );
               sprites[singlePostion] -> velocityY( 0 );
               fistStartPos = singlePostion;
               ++singlePostion;
@@ -336,7 +367,7 @@ void Manager::play() {
         makeVideo = true;
       }
 
-      if(keystate[SDLK_e]  && !keyCatch) {// let the gear move
+      if(keystate[SDLK_e]  && !keyCatch) {// let the pinkGear move
         if (currentSprite > 0){
           sprites[currentSprite] -> setIsMoved(! sprites[currentSprite] -> getIsMoved());
           keyCatch = true;

@@ -40,6 +40,19 @@ Sprite::Sprite(const string& n, const Vector2f& pos, const Vector2f& vel,
   worldHeight(Gamedata::getInstance().getXmlInt("world/height"))
 { }
 
+
+Sprite::Sprite(const string& n, const Vector2f& pos, const Vector2f& vel,
+               const Frame* frm):
+  Drawable(n, pos, vel, 100, Gamedata::getInstance().getXmlInt(n + "/width"),
+           Gamedata::getInstance().getXmlInt(n + "/height")), 
+  frame( frm ),
+  frameWidth(frame->getWidth()),
+  frameHeight(frame->getHeight()),
+  worldWidth(Gamedata::getInstance().getXmlInt("world/width")),
+  worldHeight(Gamedata::getInstance().getXmlInt("world/height"))
+{ }
+
+
 Sprite::Sprite(const Sprite& s) :
   Drawable(s), 
   frame(s.frame),

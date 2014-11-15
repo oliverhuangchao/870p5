@@ -7,8 +7,8 @@ class Sprite : public Drawable {
 public:
   Sprite(const std::string&,const int);
   Sprite(const std::string&, const Vector2f& pos, const Vector2f& vel, const int);
-  Sprite(const std::string&, 
-         const Vector2f& pos, const Vector2f& vel, const Frame*,const int);
+  Sprite(const std::string&, const Vector2f& pos, const Vector2f& vel, const Frame*,const int);
+  Sprite(const std::string&, const Vector2f& pos, const Vector2f& vel, const Frame*);
   Sprite(const Sprite& s);
   virtual ~Sprite() { } 
   Sprite& operator=(const Sprite&);

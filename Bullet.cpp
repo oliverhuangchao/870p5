@@ -76,24 +76,29 @@ void Bullet::update(Uint32 ticks) {
 void Bullet::update(Uint32 ticks, Drawable *BrotherBullet){
   Vector2f incr = getVelocity() * static_cast<float>(ticks) * 0.001;
   setPosition(getPosition() + incr);
+// still something wrong with this part
+/*
+  float deltaY = Y() + getFrameHeight()/2 - (BrotherBullet->Y() + BrotherBullet->getFrameHeight()/2);
+  float deltaX = X() + getFrameWidth()/2  - (BrotherBullet->X() + BrotherBullet->getFrameWidth()/2); 
 
-   float alpha = atan( abs( Y() - (BrotherBullet->Y() + 100) ) / ( X() - (BrotherBullet->X() + 100) ) );
-  if ( abs( X() - BrotherBullet-> X() ) > getFistRange() ) //&& getFaceDirection() == BrotherBullet -> getFaceDirection()
+  float alpha = atan( abs(deltaY) / abs(deltaX) );
+  std::cout<<deltaX<<'\t'<<deltaY<<'\t'<<alpha<<std::endl;
+*/
+  float alpha = atan( abs( Y() - (BrotherBullet->Y() + 100) ) / ( X() - (BrotherBullet->X() + 100) ) );
+  if ( abs( X() - BrotherBullet-> X() ) > getFistRange() ) 
   {
 
     if( velocityX() > 0 && X() > BrotherBullet->X() )
     {
       frame = FrameFactory::getInstance().getFrame("singleFistLeft");
-      velocityY(500 * sin(alpha));
-      velocityX(-500 * cos(alpha));
-      //setFaceDirection(-1);
+      velocityY(300 * sin(alpha));
+      velocityX(-300 * cos(alpha));
     }
     if( velocityX() < 0 && X() < BrotherBullet->X() )
     {
       frame = FrameFactory::getInstance().getFrame("singleFistRight");
-      velocityY(-500 * sin(alpha));
-      velocityX(500 * cos(alpha));
-     // setFaceDirection(1);
+      velocityY(-300 * sin(alpha));
+      velocityX(300 * cos(alpha));
     }
   }
 }
