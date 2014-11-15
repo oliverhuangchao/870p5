@@ -292,8 +292,8 @@ void Manager::play() {
             else{
               sprites.push_back( new Bullet("singleFistLeft",singlePostion) );
               sprites[singlePostion] -> setFaceDirection(-1);
-              sprites[singlePostion] -> X( sprites[currentSprite] -> X() );
-              sprites[singlePostion] -> Y( sprites[currentSprite] -> Y() );
+              sprites[singlePostion] -> X( sprites[currentSprite] -> X() + 50);
+              sprites[singlePostion] -> Y( sprites[currentSprite] -> Y() + 80);
               sprites[singlePostion] -> velocityX( -500 );
               sprites[singlePostion] -> velocityY( 0 );
               fistStartPos = singlePostion;

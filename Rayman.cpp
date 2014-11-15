@@ -68,7 +68,6 @@ void Rayman::update(Uint32 ticks) {
   Vector2f incr = getVelocity() * static_cast<float>(ticks) * 0.001;
   setPosition(getPosition() + incr);
   
-
   switch (getFrameDirection()){
       case 1: 
         if( !getIsCrawl() && !getIsJump() ){ // velocityX() != 500
