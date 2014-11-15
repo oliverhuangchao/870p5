@@ -16,8 +16,7 @@ Bullet::Bullet(const std::string& name, const int order) :
   frameWidth(frame->getWidth()),
   frameHeight(frame->getHeight()),
   worldWidth(Gamedata::getInstance().getXmlInt("world/width")),
-  worldHeight(Gamedata::getInstance().getXmlInt("world/height")),
-  fistRange(Gamedata::getInstance().getXmlInt(name + "/fistRange"))
+  worldHeight(Gamedata::getInstance().getXmlInt("world/height"))
 { }
 
 Bullet::Bullet(const string& n, const Vector2f& pos, const Vector2f& vel, const int order):
@@ -26,8 +25,7 @@ Bullet::Bullet(const string& n, const Vector2f& pos, const Vector2f& vel, const 
   frameWidth(frame->getWidth()),
   frameHeight(frame->getHeight()),
   worldWidth(Gamedata::getInstance().getXmlInt("world/width")),
-  worldHeight(Gamedata::getInstance().getXmlInt("world/height")),
-  fistRange(Gamedata::getInstance().getXmlInt(n + "/fistRange"))
+  worldHeight(Gamedata::getInstance().getXmlInt("world/height"))
 { }
 
 Bullet::Bullet(const string& n, const Vector2f& pos, const Vector2f& vel,
@@ -38,8 +36,7 @@ Bullet::Bullet(const string& n, const Vector2f& pos, const Vector2f& vel,
   frameWidth(frame->getWidth()),
   frameHeight(frame->getHeight()),
   worldWidth(Gamedata::getInstance().getXmlInt("world/width")),
-  worldHeight(Gamedata::getInstance().getXmlInt("world/height")),
-  fistRange(Gamedata::getInstance().getXmlInt(n + "/fistRange"))
+  worldHeight(Gamedata::getInstance().getXmlInt("world/height"))
 { }
 
 Bullet::Bullet(const Bullet& s) :
@@ -48,8 +45,7 @@ Bullet::Bullet(const Bullet& s) :
   frameWidth(s.getFrame()->getWidth()),
   frameHeight(s.getFrame()->getHeight()),
   worldWidth(Gamedata::getInstance().getXmlInt("world/width")),
-  worldHeight(Gamedata::getInstance().getXmlInt("world/height")),
-  fistRange(s.fistRange)
+  worldHeight(Gamedata::getInstance().getXmlInt("world/height"))
 { }
 
 Bullet& Bullet::operator=(const Bullet& rhs) {
@@ -59,7 +55,6 @@ Bullet& Bullet::operator=(const Bullet& rhs) {
   frameHeight = rhs.frameHeight;
   worldWidth = rhs.worldWidth;
   worldHeight = rhs.worldHeight;
-  fistRange = rhs.fistRange;
   return *this;
 }
 
@@ -83,7 +78,7 @@ void Bullet::update(Uint32 ticks, Drawable *BrotherBullet){
   setPosition(getPosition() + incr);
 
   float alpha = atan( ( Y() - (BrotherBullet->Y() + 50) )/( X() - (BrotherBullet->X() + 100) ) );
-  //std::cout<<alpha<<std::endl; 
+  std::cout<<abs( X() - BrotherBullet-> X() )<<std::endl; 
 
   if ( abs( X() - BrotherBullet-> X() ) > getFistRange() )
   {
@@ -92,6 +87,7 @@ void Bullet::update(Uint32 ticks, Drawable *BrotherBullet){
       frame = FrameFactory::getInstance().getFrame("singleFistLeft");
       velocityY(-500 * sin(alpha));
       velocityX(-500 * cos(alpha));
+
     }
     else
     {

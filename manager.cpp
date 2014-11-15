@@ -39,11 +39,12 @@ makeVideo( false ),
 eatStar( false ),
 isShowHug ( false ),
 singlePostion( 0 ),
-conflictScale( Gamedata::getInstance().getXmlInt("conflict") ),
+//conflictScale( Gamedata::getInstance().getXmlInt("conflict") ),
 stopWatch(true),
 stopWatch_Begin(0),
 stopWatch_End(0),
 fistStartPos(0),
+fistReadyToTurn(false),
 
 frameCount( 0 ),
 username(  Gamedata::getInstance().getXmlStr("username") ),
@@ -155,12 +156,24 @@ void Manager::update() {
   
   for (unsigned int i = 0; i < sprites.size(); ++i){ //the fist sprite should update another sprite
   //  sprites[i]->update(ticks);
-    if (i >= fistStartPos && fistStartPos !=0)
-      sprites[i]->update(ticks, sprites[0]);//fist update should added with
-    else {
-      sprites[i]->update(ticks);
-      /*if (sprites[i]->X() == sprites[0]->X()) //still something wrong with it
-        sprites.erase(sprites);*/
+    if (i >= fistStartPos && fistStartPos != 0){ 
+      if(fistStartPos !=0){
+          sprites[i]->update(ticks, sprites[0]);//fist update should added with 
+
+          if( abs(sprites[i]->X() - sprites[0]->X()) > sprites[i]->getFistRange() ){
+              fistReadyToTurn = true;
+          }
+
+          if( spriteConflict(sprites[i],sprites[0]) && fistReadyToTurn){
+            sprites.erase(sprites.begin() + i);
+            fistStartPos = 0;
+            fistReadyToTurn = false;
+            singlePostion--;
+          }
+      }
+    }
+    else{
+        sprites[i]->update(ticks);// other sprite update
     }
 
   }
@@ -174,8 +187,7 @@ void Manager::update() {
 }
 
 bool Manager::spriteConflict( Drawable* multi, Drawable* single ){
-  if ( getDistance(multi->X()+multi->getFrameWidth(),multi->Y()+multi->getFrameHeight(),single->X(),single->Y(),conflictScale) && !single->getCatched() )
-  {
+  if ( getDistance(multi->X()+multi->getFrameWidth()/2, multi->Y()+multi->getFrameHeight()/2, single->X()+single->getFrameWidth()/2,single->Y() + single->getFrameHeight()/2, 100)){
     single->setCatched(true);
     single->setFrameFollower(multi->getFrameNumber());
     multi->setTotalFollowers(multi->getTotalFollowers()+1);
@@ -185,8 +197,8 @@ bool Manager::spriteConflict( Drawable* multi, Drawable* single ){
     return false;
 }
 
-bool getDistance(int a1,int a2, int b1, int b2, int value){
-  int result = sqrt( pow( (a1 - b1), 2 ) + pow( ( a2 - b2 ), 2 ) );
+bool getDistance(int x1,int y1, int x2, int y2, int value){// return the value 
+  int result = sqrt( pow( (x1 - x2), 2 ) + pow( ( y1 - y2 ), 2 ) );
   if (result <= value)
     return true;
   else

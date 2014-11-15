@@ -32,13 +32,15 @@ private:
   bool eatStar;//let the program know that the eagle now eating stars
   bool isShowHug;
   int singlePostion;//when the singlePost will start
-  int conflictScale;
+  //int conflictScale;
 
   bool stopWatch;
   float stopWatch_Begin;//begin a stopwatch
   float stopWatch_End;//end a stopwatch
 
+
   int fistStartPos;//the order number of the fist
+  bool fistReadyToTurn;//fist ready to turn
 
 
   int frameCount;
@@ -53,5 +55,4 @@ private:
   Manager& operator=(const Manager&);
   void makeFrame();
 
-  
 };

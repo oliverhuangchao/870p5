@@ -19,10 +19,7 @@ public:
   virtual void update(Uint32 ticks);
 
   virtual void update(Uint32 ticks, Drawable *BrotherBullet);
-
-
-  float getFistRange()const{return fistRange;}
-  void setFistRange(float x){fistRange = x;}
+  
 private:
   const Frame * frame;
   int frameWidth;
@@ -30,7 +27,6 @@ private:
   int worldWidth;
   int worldHeight;
 
-  float fistRange;//fist range
 
   int getDistance(const Bullet*) const;
 };

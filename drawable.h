@@ -12,10 +12,10 @@
 class Drawable {
 public:
   Drawable(const std::string& n, const Vector2f& pos, const Vector2f& vel, const int order,const int width, const int height): 
-    name(n), position(pos), velocity(vel),frameNumber(order),frameFollowNumber(-1), catched(false), isMoved(false), totalFollowers(0), frameWidth(width), frameHeight(height), frameDirection(0), faceDirection(1), isCrawl(false), isJump(false), isFist(false), fistDuration(0) {}
+    name(n), position(pos), velocity(vel),frameNumber(order),frameFollowNumber(-1), catched(false), isMoved(false), totalFollowers(0), frameWidth(width), frameHeight(height), frameDirection(0), faceDirection(1), isCrawl(false), isJump(false), isFist(false), fistDuration(0), fistRange(250) {}
 
   Drawable(const Drawable& s) : 
-    name(s.name), position(s.position), velocity(s.velocity),frameNumber(s.frameNumber),frameFollowNumber(s.frameFollowNumber),catched(s.catched), isMoved(s.isMoved), totalFollowers(s.totalFollowers), frameWidth(s.frameWidth), frameHeight(s.frameHeight), frameDirection(s.frameDirection),faceDirection(s.faceDirection), isCrawl(s.isCrawl), isJump(s.isJump), isFist (s.isFist), fistDuration(s.fistDuration)
+    name(s.name), position(s.position), velocity(s.velocity),frameNumber(s.frameNumber),frameFollowNumber(s.frameFollowNumber),catched(s.catched), isMoved(s.isMoved), totalFollowers(s.totalFollowers), frameWidth(s.frameWidth), frameHeight(s.frameHeight), frameDirection(s.frameDirection),faceDirection(s.faceDirection), isCrawl(s.isCrawl), isJump(s.isJump), isFist (s.isFist), fistDuration(s.fistDuration), fistRange(s.fistRange)
     { }
 
   virtual ~Drawable() {}
@@ -82,7 +82,8 @@ public:
   void setFistDuration(float x){fistDuration = x;}
 
 
-
+  float getFistRange()const{return fistRange;}
+  void setFistRange(float x){fistRange = x;}
 
 private:
   std::string name;
@@ -121,6 +122,8 @@ private:
 
   bool isFist;//whether rayman is fisting
 
-  float fistDuration;//fist duration time
+  float fistDuration;//fist preparation time
+
+  float fistRange;//fist range
 };
 #endif
