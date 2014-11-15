@@ -279,23 +279,21 @@ void Manager::play() {
             stopWatch_End = clock.getSeconds();
             keepTouch = false;
             stopWatch = true;
-            //std::cout<<stopWatch_End - stopWatch_Begin<<std::endl;
             if (sprites[currentSprite] -> getFaceDirection() == 1){
               sprites.push_back( new Bullet("singleFistRight",singlePostion) );
               sprites[singlePostion] -> setFaceDirection(1);
-              sprites[singlePostion] -> X( sprites[currentSprite] -> X() + 100);
-              sprites[singlePostion] -> Y( sprites[currentSprite] -> Y() + 50);
+              sprites[singlePostion] -> X( sprites[currentSprite] -> X() + 50);
+              sprites[singlePostion] -> Y( sprites[currentSprite] -> Y() + 80);
               sprites[singlePostion] -> velocityX( 500 );
               sprites[singlePostion] -> velocityY( 0 );
               fistStartPos = singlePostion;
               ++singlePostion;
             }
             else{
-              // equal to -1
               sprites.push_back( new Bullet("singleFistLeft",singlePostion) );
               sprites[singlePostion] -> setFaceDirection(-1);
-              sprites[singlePostion] -> X( sprites[currentSprite] -> X() + 100);
-              sprites[singlePostion] -> Y( sprites[currentSprite] -> Y() + 50);
+              sprites[singlePostion] -> X( sprites[currentSprite] -> X() );
+              sprites[singlePostion] -> Y( sprites[currentSprite] -> Y() );
               sprites[singlePostion] -> velocityX( -500 );
               sprites[singlePostion] -> velocityY( 0 );
               fistStartPos = singlePostion;
