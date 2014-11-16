@@ -15,6 +15,7 @@ Bullet::Bullet(const std::string& name, const int order) :
   frame( FrameFactory::getInstance().getFrame(name) ),
   frameWidth(frame->getWidth()),
   frameHeight(frame->getHeight()),
+  fistSpeed(Gamedata::getInstance().getXmlInt(name + "/speed")),
   worldWidth(Gamedata::getInstance().getXmlInt("world/width")),
   worldHeight(Gamedata::getInstance().getXmlInt("world/height"))
 { }
@@ -24,6 +25,7 @@ Bullet::Bullet(const string& n, const Vector2f& pos, const Vector2f& vel, const 
   frame( FrameFactory::getInstance().getFrame(n) ),
   frameWidth(frame->getWidth()),
   frameHeight(frame->getHeight()),
+  fistSpeed(Gamedata::getInstance().getXmlInt(n + "/speed")),
   worldWidth(Gamedata::getInstance().getXmlInt("world/width")),
   worldHeight(Gamedata::getInstance().getXmlInt("world/height"))
 { }
@@ -35,6 +37,7 @@ Bullet::Bullet(const string& n, const Vector2f& pos, const Vector2f& vel,
   frame( frm ),
   frameWidth(frame->getWidth()),
   frameHeight(frame->getHeight()),
+  fistSpeed(Gamedata::getInstance().getXmlInt(n + "/speed")),
   worldWidth(Gamedata::getInstance().getXmlInt("world/width")),
   worldHeight(Gamedata::getInstance().getXmlInt("world/height"))
 { }
@@ -44,6 +47,7 @@ Bullet::Bullet(const Bullet& s) :
   frame(s.frame),
   frameWidth(s.getFrame()->getWidth()),
   frameHeight(s.getFrame()->getHeight()),
+  fistSpeed(s.fistSpeed),
   worldWidth(Gamedata::getInstance().getXmlInt("world/width")),
   worldHeight(Gamedata::getInstance().getXmlInt("world/height"))
 { }
@@ -53,6 +57,7 @@ Bullet& Bullet::operator=(const Bullet& rhs) {
   frame = rhs.frame;
   frameWidth = rhs.frameWidth;
   frameHeight = rhs.frameHeight;
+  fistSpeed = rhs.fistSpeed;
   worldWidth = rhs.worldWidth;
   worldHeight = rhs.worldHeight;
   return *this;
@@ -91,14 +96,14 @@ void Bullet::update(Uint32 ticks, Drawable *BrotherBullet){
     if( velocityX() > 0 && X() > BrotherBullet->X() )
     {
       frame = FrameFactory::getInstance().getFrame("singleFistLeft");
-      velocityY(300 * sin(alpha));
-      velocityX(-300 * cos(alpha));
+      velocityY(fistSpeed * sin(alpha));
+      velocityX(-1*fistSpeed * cos(alpha));
     }
     if( velocityX() < 0 && X() < BrotherBullet->X() )
     {
       frame = FrameFactory::getInstance().getFrame("singleFistRight");
-      velocityY(-300 * sin(alpha));
-      velocityX(300 * cos(alpha));
+      velocityY(-1*fistSpeed * sin(alpha));
+      velocityX(fistSpeed * cos(alpha));
     }
   }
 }

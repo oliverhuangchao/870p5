@@ -80,6 +80,12 @@
   <width>120</width>
   <height>80</height>
   <moveRange>150</moveRange>
+  <chunk>
+    <size>5</size>
+    <distance>200</distance>
+    <width>12</width>
+    <height>12</height>
+  </chunk>
 </pinkGear>
 
 
@@ -224,8 +230,7 @@
 
 <singleFistLeft>
   <file>images/singleFistLeft.png</file>
-  <frames>1</frames>
-  <frameInterval>100</frameInterval>
+  <speed>600</speed>
   <width>64</width>
   <height>64</height>
   <srcX>0</srcX>
@@ -236,8 +241,7 @@
 
 <singleFistRight>
   <file>images/singleFistRight.png</file>
-  <frames>1</frames>
-  <frameInterval>100</frameInterval>
+  <speed>600</speed>
   <width>64</width>
   <height>64</height>
   <srcX>0</srcX>

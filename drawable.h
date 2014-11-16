@@ -12,11 +12,12 @@
 class Drawable {
 public:
   Drawable(const std::string& n, const Vector2f& pos, const Vector2f& vel, const int order,const int width, const int height): 
-    name(n), position(pos), velocity(vel),frameNumber(order),frameFollowNumber(-1), catched(false), isMoved(true), totalFollowers(0), frameWidth(width), frameHeight(height), frameDirection(0), faceDirection(1), isCrawl(false), isJump(false), isFist(false), fistDuration(0), fistRange(250) {}
+    name(n), position(pos), velocity(vel),frameNumber(order),frameFollowNumber(-1), catched(false), isMoved(true), totalFollowers(0), frameWidth(width), frameHeight(height), frameDirection(0), faceDirection(1), isCrawl(false), isJump(false), isFist(false), fistDuration(0), fistRange(250) 
+  { }
 
   Drawable(const Drawable& s) : 
     name(s.name), position(s.position), velocity(s.velocity),frameNumber(s.frameNumber),frameFollowNumber(s.frameFollowNumber),catched(s.catched), isMoved(s.isMoved), totalFollowers(s.totalFollowers), frameWidth(s.frameWidth), frameHeight(s.frameHeight), frameDirection(s.frameDirection),faceDirection(s.faceDirection), isCrawl(s.isCrawl), isJump(s.isJump), isFist (s.isFist), fistDuration(s.fistDuration), fistRange(s.fistRange)
-    { }
+  {}
 
   virtual ~Drawable() {}
 
@@ -89,26 +90,20 @@ public:
 
 private:
   std::string name;
-
   Vector2f position;
-
   Vector2f velocity;
 
   // sprite control setting variable
   int frameNumber;//the label for this sprite
-
   int frameFollowNumber;//which sprite he try to follow
-
   bool catched;//whether this spirte is catched
-
   bool isMoved;//whether this pinkgear is moving
-
   int totalFollowers;// how many his followers
-
+  
+  //frame related factor
+  //const Frame * spriteFrame;
   int frameWidth;
-
   int frameHeight;
-
   int frameDirection;//set the current direction of rayman
   // 1 : right
   // -1: left
@@ -119,13 +114,9 @@ private:
   // -1: left
 
   bool isCrawl;// whether rayman is crawling
-  
   bool isJump;//whether rayman is jumping
-
   bool isFist;//whether rayman is fisting
-
   float fistDuration;//fist preparation time
-
   float fistRange;//fist range
 };
 #endif

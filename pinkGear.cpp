@@ -3,6 +3,8 @@
 #include "gamedata.h"
 #include "frameFactory.h"
 
+pinkGear::~pinkGear(){}
+
 pinkGear::pinkGear(const std::string& name, const int order) :
   Drawable(name,
            Vector2f(Gamedata::getInstance().getXmlInt(name+"/startLoc/x"), 
@@ -17,10 +19,10 @@ pinkGear::pinkGear(const std::string& name, const int order) :
   frameHeight(frame->getHeight()),
   worldWidth(Gamedata::getInstance().getXmlInt("world/width")),
   worldHeight(Gamedata::getInstance().getXmlInt("world/height")),
-  moveRange (Gamedata::getInstance().getXmlInt(name+"/moveRange") ),
-  startX (Gamedata::getInstance().getXmlInt(name+"/startLoc/x")),
-  startY (Gamedata::getInstance().getXmlInt(name+"/startLoc/y"))
-{ }
+  moveRange( Gamedata::getInstance().getXmlInt(name+"/moveRange") ),
+  startX( Gamedata::getInstance().getXmlInt(name+"/startLoc/x")),
+  startY( Gamedata::getInstance().getXmlInt(name+"/startLoc/y"))
+  { }
 
 pinkGear::pinkGear(const string& n, const Vector2f& pos, const Vector2f& vel, const int order):
   Drawable(n, pos, vel,order, Gamedata::getInstance().getXmlInt(n + "/width"), Gamedata::getInstance().getXmlInt(n + "/height")), 
@@ -58,7 +60,7 @@ pinkGear::pinkGear(const pinkGear& s) :
   moveRange ( s.moveRange ),
   startX ( s.startX ),
   startY ( s.startY )
-{ }
+{}
 
 pinkGear& pinkGear::operator=(const pinkGear& rhs) {
   Drawable::operator=( rhs );
@@ -88,7 +90,6 @@ void pinkGear::update(Uint32 ticks) {
   Vector2f incr = getVelocity() * static_cast<float>(ticks) * 0.001;
   setPosition(getPosition() + incr);
 
-
   if(getIsMoved()){
     if(velocityY() == 0) velocityY(300);
     if( abs( Y() - startY ) > moveRange ) velocityY(-velocityY());
@@ -97,17 +98,11 @@ void pinkGear::update(Uint32 ticks) {
     velocityY(0);
     startY = Y();
   }
-
 }
 
 
-void pinkGear::update(Uint32 ticks, Drawable *BrotherpinkGear) { 
-  
+void pinkGear::update(Uint32 ticks, Drawable *BrotherpinkGear) {   
   Vector2f incr = getVelocity() * static_cast<float>(ticks) * 0.001;
   setPosition(getPosition() + incr);
-  
-  
-
-
 }
 

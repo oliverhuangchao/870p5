@@ -4,9 +4,7 @@
 
 class Chunk : public Sprite{
 public:
-  explicit Chunk(
-    const Vector2f& pos, const Vector2f vel, 
-    const string& name, const Frame* fm) :
+  explicit Chunk(const Vector2f& pos, const Vector2f vel, const string& name, const Frame* fm):
     Sprite(name, pos, vel, fm), 
     distance(0), 
     maxDistance(Gamedata::getInstance().getXmlInt(name+"/distance")), 

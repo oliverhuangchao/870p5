@@ -33,10 +33,15 @@ protected:
   float timeSinceLastFrame;
   int frameWidth;
   int frameHeight;
+
+
+  // Rayman action
   bool alreadyCrawling;
   float currentLandPos;
   bool currentLandPosSet;
   bool isReachTop;
+  //bool isCrawl;// whether rayman is crawling
+
   std::string frameName;
 
   void advanceFrame(Uint32 ticks);

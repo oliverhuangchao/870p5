@@ -47,6 +47,7 @@ stopWatch_End(0),
 fistStartPos(0),
 fistReadyToTurn(false),
 alreadyHit(false),
+//isReset(false),
 
 frameCount( 0 ),
 username(  Gamedata::getInstance().getXmlStr("username") ),
@@ -151,16 +152,15 @@ void Manager::update() {
   ++clock;
   world_back.update();
   world_front.update();
-  //std::cout<<clock.getSeconds()<<std::endl;
-  //if (currentSprite == 0)
+ 
     
   Uint32 ticks = clock.getElapsedTicks();
   
   sprites[0]->update(ticks);//update our hero
 
-  for (unsigned int i = 1; i < sprites.size(); ++i){// update pinkGear
+  for (unsigned int i = 1; i < sprites.size(); ++i){// update pinkGear start @ 1 position
     
-    if ( fistStartPos !=0 && i >= fistStartPos){
+    if ( fistStartPos != 0 && i >= fistStartPos){
       sprites[i]->update(ticks, sprites[0]);
 
       if( abs(sprites[i]->X() - sprites[0]->X()) > sprites[i]->getFistRange() ){
@@ -176,39 +176,18 @@ void Manager::update() {
     }
     else{
       sprites[i]->update(ticks);
-      if (spriteConflict(sprites[i], sprites[fistStartPos]) && !alreadyHit){
-        std::cout<<"hit the pinkGear"<<std::endl;
-        Drawable *tmp = sprites[i];
-        sprites[i] = new explodingSprite(sprites[i]);
+      if (spriteConflict(sprites[i], sprites[fistStartPos]) && !alreadyHit && fistStartPos != 0){
+        //std::cout<<"hit the pinkGear with"<<'\t'<<i<<std::endl;
+        pinkGear *tmp = static_cast<pinkGear*>(sprites[i]);   
+
+        sprites[i] = new ExplodingSprite( *tmp );
+
         alreadyHit = true;
+        
         delete tmp;
       }
     }
   }
-/*
-  for (unsigned int i = 1; i < sprites.size(); ++i){ //the fist sprite should update another sprite
-    
-    //fist update should added with 
-    if (i >= fistStartPos && fistStartPos != 0){ 
-      if(fistStartPos !=0){
-          sprites[i]->update(ticks, sprites[0]);
-
-          if( abs(sprites[i]->X() - sprites[0]->X()) > sprites[i]->getFistRange() ){
-              fistReadyToTurn = true;
-          }
-
-          if( spriteConflict(sprites[i],sprites[0]) && fistReadyToTurn){
-            sprites.erase(sprites.begin() + i);
-            fistStartPos = 0;
-            fistReadyToTurn = false;
-            singlePostion--;
-          }
-      }
-    }
-    else{
-        sprites[i]->update(ticks);// other sprite update
-    }
-*/
 
   if ( makeVideo && frameCount < frameMax ) {
     makeFrame();
@@ -219,9 +198,7 @@ void Manager::update() {
 
 bool Manager::spriteConflict( Drawable* multi, Drawable* single ){
   if ( getDistance(multi->X()+multi->getFrameWidth()/2, multi->Y()+multi->getFrameHeight()/2, single->X()+single->getFrameWidth()/2,single->Y() + single->getFrameHeight()/2, 100)){
-    //single->setCatched(true);
-    //single->setFrameFollower(multi->getFrameNumber());
-   // multi->setTotalFollowers(multi->getTotalFollowers()+1);
+   
     return true;
   }
   else
@@ -249,7 +226,7 @@ void Manager::play() {
     Uint8 *keystate = SDL_GetKeyState(NULL);
     //const Uint8 *state = SDL_GetKeyboardState(NULL);
     if(event.type ==  SDL_QUIT) { done = true; break; }
-//-------------------- key up --------------
+//-------------------- key UP function Add here--------------
     if(event.type == SDL_KEYUP) { // if anykey is up then see which key
 
       keepTouch = false;
@@ -315,7 +292,7 @@ void Manager::play() {
               sprites[singlePostion] -> setFaceDirection(1);
               sprites[singlePostion] -> X( sprites[currentSprite] -> X() + 50);
               sprites[singlePostion] -> Y( sprites[currentSprite] -> Y() + 80);
-              sprites[singlePostion] -> velocityX( 300 );
+              sprites[singlePostion] -> velocityX( static_cast<Bullet*>(sprites[singlePostion]) -> getSpeed() );
               sprites[singlePostion] -> velocityY( 0 );
               fistStartPos = singlePostion;
               ++singlePostion;
@@ -325,7 +302,7 @@ void Manager::play() {
               sprites[singlePostion] -> setFaceDirection(-1);
               sprites[singlePostion] -> X( sprites[currentSprite] -> X() + 50);
               sprites[singlePostion] -> Y( sprites[currentSprite] -> Y() + 80);
-              sprites[singlePostion] -> velocityX( -300 );
+              sprites[singlePostion] -> velocityX( -1 * static_cast<Bullet*>(sprites[singlePostion]) -> getSpeed() );
               sprites[singlePostion] -> velocityY( 0 );
               fistStartPos = singlePostion;
               ++singlePostion;
@@ -335,9 +312,8 @@ void Manager::play() {
 
 
     }
-// ------------------ key down ------------- 
+// ------------------ kEY Down Here------------- 
     if(event.type == SDL_KEYDOWN) {
-      
       keepTouch = true; 
 
       if (keystate[SDLK_ESCAPE] || keystate[SDLK_q]) {
@@ -345,39 +321,40 @@ void Manager::play() {
         break;
       }
 
-      if (keystate[SDLK_t] && !keyCatch) {
-        keyCatch = true;
-        currentSprite = (currentSprite+1) % sprites.size();
-        viewport.setObjectToTrack(sprites[currentSprite]);
-      }
-
-      if (keystate[SDLK_l] && !keyCatch) {
-        keyCatch = true;
-        clock.toggleSloMo();
-      }
-
-      if (keystate[SDLK_p] && !keyCatch) {
-        keyCatch = true;
-        if ( clock.isPaused() ) clock.unpause();
-        else clock.pause();
-      }
-
-      if (keystate[SDLK_F4] && !makeVideo) {
-        std::cout << "Making video frames" << std::endl;
-        makeVideo = true;
-      }
-
-      if(keystate[SDLK_e]  && !keyCatch) {// let the pinkGear move
-        if (currentSprite > 0){
-          sprites[currentSprite] -> setIsMoved(! sprites[currentSprite] -> getIsMoved());
-          keyCatch = true;
+      if (!keyCatch) //keyboard touch once function
+      {
+        switch (event.key.keysym.sym){
+          case SDLK_t:
+            currentSprite = (currentSprite+1) % sprites.size();
+            viewport.setObjectToTrack(sprites[currentSprite]);
+            break;
+          case SDLK_l: clock.toggleSloMo();
+            break;
+          case SDLK_p:
+            if ( clock.isPaused() ) clock.unpause();
+            else clock.pause();
+            break;
+          case SDLK_F4:
+            std::cout << "Making video frames" << std::endl;
+            makeVideo = true;
+            break;
+          case SDLK_e:
+            if (currentSprite > 0)
+                sprites[currentSprite] -> setIsMoved(! sprites[currentSprite] -> getIsMoved());
+            break;
+          case SDLK_m:
+            isShowHug = !isShowHug;
+            break;
+          case SDLK_w: 
+            if(currentSprite == 0)
+              sprites[currentSprite] -> setIsJump(true);
+            break;
+          default:
+            break;
         }
-      }
-      if ( keystate[SDLK_m] &&  !keyCatch) { //show the huds 
         keyCatch = true;
-        isShowHug = !isShowHug;
       }
-      
+
       if ( keystate[SDLK_a] &&  keepTouch) { //keep running to left 
         if (currentSprite == 0){
           sprites[currentSprite] -> setFrameDirection(-1);
@@ -391,14 +368,6 @@ void Manager::play() {
           sprites[currentSprite] -> setFaceDirection(1);
         }
       }
-
-      if ( keystate[SDLK_w] && !keyCatch) {// jump once
-          keyCatch = true;
-          if(currentSprite == 0){
-            sprites[currentSprite] -> setIsJump(true);
-          }
-      }
-
       if ( keystate[SDLK_s] && keepTouch) {//keep crawing position
           if(currentSprite == 0){
             sprites[currentSprite] -> setIsCrawl(true);

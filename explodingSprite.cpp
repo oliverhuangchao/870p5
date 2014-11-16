@@ -1,12 +1,13 @@
 #include <iostream>
 #include <cmath>
 #include "explodingSprite.h"
-#include "drawable.h"
+
 ExplodingSprite::ExplodingSprite(const pinkGear& s) :
-  pinkGear(s), 
+  pinkGear(s),
   chunks(), 
   freeList(),
-  frames() {
+  frames() 
+{
   makeChunks(Gamedata::getInstance().getXmlInt(s.getName()+"/chunk/size"));
 }
 
@@ -19,8 +20,8 @@ ExplodingSprite::~ExplodingSprite() {
 }
 
 void ExplodingSprite::draw() const { 
-  // Override draw; use the draw in Chunk, which derives from pinkGear.
-  // So the draw we're using is actually in pinkGear
+  // Override draw; use the draw in Chunk, which derives from Sprite.
+  // So the draw we're using is actually in Sprite
   std::list<Chunk>::const_iterator ptr = chunks.begin();
   while (ptr != chunks.end()) {
     ptr->draw();
@@ -38,6 +39,10 @@ void ExplodingSprite::update(Uint32 ticks) {
     }   
     else ++ptr;
   }
+}
+
+void ExplodingSprite::update(Uint32 ticks, Drawable *anotherSprite){
+
 }
 
 void ExplodingSprite::makeChunks(unsigned int n) { 

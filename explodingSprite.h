@@ -1,19 +1,24 @@
 #include <vector>
 #include <list>
 #include "chunk.h"
+//#include "drawable.h"
 #include "pinkGear.h"
-#include "drawable.h"
 
 class ExplodingSprite : public pinkGear {
 public:
-  ExplodingSprite(const pinkGear& s);
+  ExplodingSprite(const pinkGear& s);//use pinkGear to construct a new explodingSprite
   ~ExplodingSprite();
+
+  //virtual const Frame* getFrame() const { return frame; }
   virtual void draw() const;
   virtual void update(Uint32 ticks);
+  virtual void update(Uint32 ticks, Drawable *BrotherpinkGear);
+
   void makeChunks(unsigned int);
   unsigned int chunkCount() const { return chunks.size(); }
   unsigned int freeCount()  const { return freeList.size(); }
 private:
+  //const Frame * frame;
   std::list<Chunk> chunks; // An ExplodingSprite is a list of sprite chunks
   std::list<Chunk> freeList; // When a chunk gets out of range it goes here
   std::vector<Frame*> frames; // Each chunk has a Frame

@@ -43,6 +43,9 @@ private:
   bool fistReadyToTurn;//fist ready to turn
   bool alreadyHit;//whether the fist already touch the pinkGear;
 
+
+  //bool isRest;
+
   int frameCount;
   const std::string username;
   const std::string title;

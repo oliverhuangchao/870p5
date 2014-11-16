@@ -20,14 +20,20 @@ public:
 
   virtual void update(Uint32 ticks, Drawable *BrotherBullet);
   
+  int getSpeed(){return fistSpeed;}
+  void setSpeed(int x){fistSpeed = x;}
+
+
 private:
   const Frame * frame;
   int frameWidth;
   int frameHeight;
+
+  int fistSpeed;
+
   int worldWidth;
   int worldHeight;
-
-
+  
   int getDistance(const Bullet*) const;
 };
 #endif
