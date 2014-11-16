@@ -16,6 +16,7 @@ Bullet::Bullet(const std::string& name, const int order) :
   frameWidth(frame->getWidth()),
   frameHeight(frame->getHeight()),
   fistSpeed(Gamedata::getInstance().getXmlInt(name + "/speed")),
+  faceDirection(0),
   worldWidth(Gamedata::getInstance().getXmlInt("world/width")),
   worldHeight(Gamedata::getInstance().getXmlInt("world/height"))
 { }
@@ -26,6 +27,7 @@ Bullet::Bullet(const string& n, const Vector2f& pos, const Vector2f& vel, const 
   frameWidth(frame->getWidth()),
   frameHeight(frame->getHeight()),
   fistSpeed(Gamedata::getInstance().getXmlInt(n + "/speed")),
+  faceDirection(0),
   worldWidth(Gamedata::getInstance().getXmlInt("world/width")),
   worldHeight(Gamedata::getInstance().getXmlInt("world/height"))
 { }
@@ -38,6 +40,7 @@ Bullet::Bullet(const string& n, const Vector2f& pos, const Vector2f& vel,
   frameWidth(frame->getWidth()),
   frameHeight(frame->getHeight()),
   fistSpeed(Gamedata::getInstance().getXmlInt(n + "/speed")),
+  faceDirection(0),
   worldWidth(Gamedata::getInstance().getXmlInt("world/width")),
   worldHeight(Gamedata::getInstance().getXmlInt("world/height"))
 { }
@@ -48,6 +51,7 @@ Bullet::Bullet(const Bullet& s) :
   frameWidth(s.getFrame()->getWidth()),
   frameHeight(s.getFrame()->getHeight()),
   fistSpeed(s.fistSpeed),
+  faceDirection(s.faceDirection),
   worldWidth(Gamedata::getInstance().getXmlInt("world/width")),
   worldHeight(Gamedata::getInstance().getXmlInt("world/height"))
 { }
@@ -58,6 +62,7 @@ Bullet& Bullet::operator=(const Bullet& rhs) {
   frameWidth = rhs.frameWidth;
   frameHeight = rhs.frameHeight;
   fistSpeed = rhs.fistSpeed;
+  faceDirection = rhs.faceDirection;
   worldWidth = rhs.worldWidth;
   worldHeight = rhs.worldHeight;
   return *this;

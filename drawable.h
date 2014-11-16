@@ -12,11 +12,11 @@
 class Drawable {
 public:
   Drawable(const std::string& n, const Vector2f& pos, const Vector2f& vel, const int order,const int width, const int height): 
-    name(n), position(pos), velocity(vel),frameNumber(order),frameFollowNumber(-1), catched(false), isMoved(true), totalFollowers(0), frameWidth(width), frameHeight(height), frameDirection(0), faceDirection(1), isCrawl(false), isJump(false), isFist(false), fistDuration(0), fistRange(250) 
+    name(n), position(pos), velocity(vel),frameNumber(order),frameFollowNumber(-1), catched(false), isMoved(true), totalFollowers(0), frameWidth(width), frameHeight(height), fistRange(250) 
   { }
 
   Drawable(const Drawable& s) : 
-    name(s.name), position(s.position), velocity(s.velocity),frameNumber(s.frameNumber),frameFollowNumber(s.frameFollowNumber),catched(s.catched), isMoved(s.isMoved), totalFollowers(s.totalFollowers), frameWidth(s.frameWidth), frameHeight(s.frameHeight), frameDirection(s.frameDirection),faceDirection(s.faceDirection), isCrawl(s.isCrawl), isJump(s.isJump), isFist (s.isFist), fistDuration(s.fistDuration), fistRange(s.fistRange)
+    name(s.name), position(s.position), velocity(s.velocity),frameNumber(s.frameNumber),frameFollowNumber(s.frameFollowNumber),catched(s.catched), isMoved(s.isMoved), totalFollowers(s.totalFollowers), frameWidth(s.frameWidth), frameHeight(s.frameHeight),  fistRange(s.fistRange)
   {}
 
   virtual ~Drawable() {}
@@ -66,23 +66,6 @@ public:
   bool getIsMoved(){return isMoved;}
 
 
-  int getFrameDirection()const{return frameDirection;}
-  void setFrameDirection(int x){frameDirection = x;}
-
-  int getFaceDirection()const{return faceDirection;}
-  void setFaceDirection(int x){faceDirection = x;}
-
-  bool getIsJump()const{return isJump;}
-  void setIsJump(bool x){isJump = x;}
-
-  bool getIsCrawl()const{return isCrawl;}
-  void setIsCrawl(bool x){isCrawl = x;}
-
-  bool getIsFist()const{return isFist;}
-  void setIsFist(bool x){isFist = x;}
-
-  float getFistDuration()const{return fistDuration;}
-  void setFistDuration(float x){fistDuration = x;}
 
 
   float getFistRange()const{return fistRange;}
@@ -100,23 +83,12 @@ private:
   bool isMoved;//whether this pinkgear is moving
   int totalFollowers;// how many his followers
   
-  //frame related factor
-  //const Frame * spriteFrame;
+ 
   int frameWidth;
   int frameHeight;
-  int frameDirection;//set the current direction of rayman
-  // 1 : right
-  // -1: left
-  // 0 : stay
-
-  int faceDirection;// where is his face is
-  // 1 : right
-  // -1: left
-
-  bool isCrawl;// whether rayman is crawling
-  bool isJump;//whether rayman is jumping
-  bool isFist;//whether rayman is fisting
-  float fistDuration;//fist preparation time
+ 
+  
+  
   float fistRange;//fist range
 };
 #endif

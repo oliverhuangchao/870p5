@@ -31,10 +31,16 @@ Rayman::Rayman( const std::string& name, const std::string& second, const int or
   timeSinceLastFrame( 0 ),
   frameWidth(frames[0]->getWidth()),
   frameHeight(frames[0]->getHeight()),
-  alreadyCrawling (false),
-  currentLandPos(0),
-  currentLandPosSet(false),
-  isReachTop(false),
+  alreadyCrawling ( false ),
+  currentLandPos( 0 ),
+  currentLandPosSet( false ),
+  isReachTop( false ),
+  isCrawl( false ),
+  isJump( false ),
+  frameDirection( 0 ),
+  faceDirection( 1 ),
+  isFist( false ),
+  fistDuration( 0 ),
   frameName( name )
 { }
 
@@ -53,6 +59,12 @@ Rayman::Rayman(const Rayman& s) :
   currentLandPos(s.currentLandPos),
   currentLandPosSet(s.currentLandPosSet),
   isReachTop(s.isReachTop),
+  isCrawl( s.isCrawl ),
+  isJump( s.isJump ),
+  frameDirection( s.frameDirection ),
+  faceDirection( s.faceDirection ),
+  isFist( s.isFist ),
+  fistDuration( s.fistDuration ),
   frameName(s.frameName)
   { }
 
@@ -68,79 +80,79 @@ void Rayman::update(Uint32 ticks) {
   Vector2f incr = getVelocity() * static_cast<float>(ticks) * 0.001;
   setPosition(getPosition() + incr);
   
-  switch (getFrameDirection()){
+  switch (frameDirection){
       case 1: 
-        if( !getIsCrawl() && !getIsJump() ){ // velocityX() != 500
+        if( !isCrawl && !isJump ){ // velocityX() != 500
           frames = FrameFactory::getInstance().getFrames(frameName, "runRight");
           velocityX(500);
           break;
         }
-        if ( getIsCrawl() ){
+        if ( isCrawl ){
           frames = FrameFactory::getInstance().getFrames(frameName, "crawlRight");
           velocityX(500);
           break;
         }
-        if ( getIsJump() ){
+        if ( isJump ){
            jumpFunction();
            break;
         }
         break;
       case -1:
-        if( !getIsCrawl() && !getIsJump() ){ 
+        if( !isCrawl && !isJump ){ 
           frames = FrameFactory::getInstance().getFrames(frameName, "runLeft");
           velocityX(-500);
           break;
         }
-        if ( getIsCrawl() ){
+        if ( isCrawl ){
           frames = FrameFactory::getInstance().getFrames(frameName, "crawlLeft");
           velocityX(-500);
           break;
         }
-        if ( getIsJump() ){
+        if ( isJump ){
           jumpFunction();
            break;
         }
         break;
       case 0: //no moving action
         velocityX(0);
-        if ( !getIsCrawl() && !getIsJump() && !getIsFist() ){//keep standing
-            if (getFaceDirection() == -1) {
+        if ( !isCrawl && !isJump && !isFist ){//keep standing
+            if (faceDirection== -1) {
               frames = FrameFactory::getInstance().getFrames(frameName, "standLeft");
             }
-            if (getFaceDirection() == 1){
+            if (faceDirection== 1){
                frames = FrameFactory::getInstance().getFrames(frameName, "standRight"); 
             }
             alreadyCrawling = false;
             break;
         } 
-        if ( getIsCrawl() ){//keep crawling postion
+        if ( isCrawl ){//keep crawling postion
             if(!alreadyCrawling){
-                if (getFaceDirection() == -1)
+                if (faceDirection== -1)
                     frames = FrameFactory::getInstance().getFrames(frameName, "standToLeftCrawl");
-                if (getFaceDirection() == 1)
+                if (faceDirection== 1)
                     frames = FrameFactory::getInstance().getFrames(frameName, "standToRightCrawl");
                 alreadyCrawling = true; 
             }
             else{
-                if (getFaceDirection() == -1)
+                if (faceDirection== -1)
                     frames = FrameFactory::getInstance().getFrames(frameName, "keepLeftCrawl");
-                if (getFaceDirection() == 1)
+                if (faceDirection== 1)
                     frames = FrameFactory::getInstance().getFrames(frameName, "keepRightCrawl");
             }
             break;
         }
-        if ( getIsJump() ){//jump action
+        if ( isJump ){//jump action
             jumpFunction();
             break;
         }
-        if ( getIsFist() ){//fist action
-            if (getFaceDirection() == -1){
+        if ( isFist ){//fist action
+            if (faceDirection== -1){
                 frames = FrameFactory::getInstance().getFrames(frameName, "fistLeft");
               }
-            if (getFaceDirection() == 1){
+            if (faceDirection== 1){
                 frames = FrameFactory::getInstance().getFrames(frameName, "fistRight");
               }
-            if (currentFrame == 8 && getFistDuration() != 3){ //total can insist 3 seconds
+            if (currentFrame == 8 && fistDuration != 3){ //total can insist 3 seconds
                 currentFrame = 5;
             }
             break;
@@ -160,9 +172,9 @@ inline void Rayman::jumpFunction(){
       currentLandPosSet = true;
   }
     
-  if(getFaceDirection() == -1)
+  if(faceDirection== -1)
     frames = FrameFactory::getInstance().getFrames(frameName, "jumpLeft");
-  if(getFaceDirection() == 1)
+  if(faceDirection== 1)
     frames = FrameFactory::getInstance().getFrames(frameName, "jumpRight");
 
   if( abs(currentLandPos - Y()) > 300 ){

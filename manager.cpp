@@ -177,7 +177,7 @@ void Manager::update() {
     else{
       sprites[i]->update(ticks);
       if (spriteConflict(sprites[i], sprites[fistStartPos]) && !alreadyHit && fistStartPos != 0){
-        //std::cout<<"hit the pinkGear with"<<'\t'<<i<<std::endl;
+
         pinkGear *tmp = static_cast<pinkGear*>(sprites[i]);   
 
         sprites[i] = new ExplodingSprite( *tmp );
@@ -234,13 +234,13 @@ void Manager::play() {
       if( !keystate[SDLK_w] ){//release w but keep a or d 
         if(currentSprite == 0){
             if( keystate[SDLK_a] ){
-              sprites[currentSprite] -> setFrameDirection(-1);
-              sprites[currentSprite] -> setFaceDirection(-1);
+              static_cast<Rayman *>(sprites[currentSprite]) -> setFrameDirection(-1);
+              static_cast<Rayman *>(sprites[currentSprite]) -> setFaceDirection(-1);
               keepTouch = true;
             }
             if( keystate[SDLK_d] ){
-              sprites[currentSprite] -> setFrameDirection(1);
-              sprites[currentSprite] -> setFaceDirection(1);
+              static_cast<Rayman *>(sprites[currentSprite]) -> setFrameDirection(1);
+              static_cast<Rayman *>(sprites[currentSprite]) -> setFaceDirection(1);
               keepTouch = true;
             }
         }
@@ -248,15 +248,15 @@ void Manager::play() {
 
       if( !keystate[SDLK_s] ){//release s but keep a or d
        if(currentSprite == 0){
-          sprites[currentSprite] -> setIsCrawl(false);
+          static_cast<Rayman *>(sprites[currentSprite]) -> setIsCrawl(false);
           if( keystate[SDLK_a] ){
-              sprites[currentSprite] -> setFrameDirection(-1);
-              sprites[currentSprite] -> setFaceDirection(-1);
+              static_cast<Rayman *>(sprites[currentSprite]) -> setFrameDirection(-1);
+              static_cast<Rayman *>(sprites[currentSprite]) -> setFaceDirection(-1);
               keepTouch = true;
             }
           if( keystate[SDLK_d] ){
-              sprites[currentSprite] -> setFrameDirection(1);
-              sprites[currentSprite] -> setFaceDirection(1);
+              static_cast<Rayman *>(sprites[currentSprite]) -> setFrameDirection(1);
+              static_cast<Rayman *>(sprites[currentSprite]) -> setFaceDirection(1);
               keepTouch = true;
             }
         }
@@ -264,32 +264,32 @@ void Manager::play() {
 
       if( keystate[SDLK_w] && !keystate[SDLK_a] && !keystate[SDLK_d] ){//release a or d but keep w
         if(currentSprite == 0){
-            sprites[currentSprite] -> setIsJump(true);
-            sprites[currentSprite] -> setIsCrawl(false);
-            sprites[currentSprite] -> setFrameDirection(0);
+            static_cast<Rayman *>(sprites[currentSprite]) -> setIsJump(true);
+            static_cast<Rayman *>(sprites[currentSprite]) -> setIsCrawl(false);
+            static_cast<Rayman *>(sprites[currentSprite]) -> setFrameDirection(0);
             keepTouch = false;
         }
       }
 
       if( keystate[SDLK_s] && !keystate[SDLK_a] && !keystate[SDLK_d] ){//release a or d but keep s
         if(currentSprite == 0){
-            sprites[currentSprite] -> setIsCrawl(true);
-            sprites[currentSprite] -> setIsJump(false);
-            sprites[currentSprite] -> setFrameDirection(0);
+            static_cast<Rayman *>(sprites[currentSprite]) -> setIsCrawl(true);
+            static_cast<Rayman *>(sprites[currentSprite]) -> setIsJump(false);
+            static_cast<Rayman *>(sprites[currentSprite]) -> setFrameDirection(0);
             keepTouch = false;
         }
       }
 
       if( !keystate[SDLK_f] && !stopWatch ){//release f 
         if(currentSprite == 0){
-            sprites[currentSprite] -> setIsFist(false);
-            sprites[currentSprite] -> setFrameDirection(0);
+            static_cast<Rayman *>(sprites[currentSprite]) -> setIsFist(false);
+            static_cast<Rayman *>(sprites[currentSprite]) -> setFrameDirection(0);
             stopWatch_End = clock.getSeconds();
             keepTouch = false;
             stopWatch = true;
-            if (sprites[currentSprite] -> getFaceDirection() == 1){
+            if (static_cast<Rayman *>(sprites[currentSprite]) -> getFaceDirection() == 1){
               sprites.push_back( new Bullet("singleFistRight",singlePostion) );
-              sprites[singlePostion] -> setFaceDirection(1);
+              static_cast<Bullet *>(sprites[singlePostion]) -> setFaceDirection(1);
               sprites[singlePostion] -> X( sprites[currentSprite] -> X() + 50);
               sprites[singlePostion] -> Y( sprites[currentSprite] -> Y() + 80);
               sprites[singlePostion] -> velocityX( static_cast<Bullet*>(sprites[singlePostion]) -> getSpeed() );
@@ -299,7 +299,7 @@ void Manager::play() {
             }
             else{
               sprites.push_back( new Bullet("singleFistLeft",singlePostion) );
-              sprites[singlePostion] -> setFaceDirection(-1);
+              static_cast<Bullet *>(sprites[singlePostion]) -> setFaceDirection(-1);//set the fist direction
               sprites[singlePostion] -> X( sprites[currentSprite] -> X() + 50);
               sprites[singlePostion] -> Y( sprites[currentSprite] -> Y() + 80);
               sprites[singlePostion] -> velocityX( -1 * static_cast<Bullet*>(sprites[singlePostion]) -> getSpeed() );
@@ -347,7 +347,7 @@ void Manager::play() {
             break;
           case SDLK_w: 
             if(currentSprite == 0)
-              sprites[currentSprite] -> setIsJump(true);
+              static_cast<Rayman *>(sprites[currentSprite]) -> setIsJump(true);
             break;
           default:
             break;
@@ -357,60 +357,53 @@ void Manager::play() {
 
       if ( keystate[SDLK_a] &&  keepTouch) { //keep running to left 
         if (currentSprite == 0){
-          sprites[currentSprite] -> setFrameDirection(-1);
-          sprites[currentSprite] -> setFaceDirection(-1);
+          static_cast<Rayman *>(sprites[currentSprite]) -> setFrameDirection(-1);
+          static_cast<Rayman *>(sprites[currentSprite]) -> setFaceDirection(-1);
         }
       }
 
       if ( keystate[SDLK_d] &&  keepTouch) { //keep runing to right
         if (currentSprite == 0){
-          sprites[currentSprite] -> setFrameDirection(1);
-          sprites[currentSprite] -> setFaceDirection(1);
+          static_cast<Rayman *>(sprites[currentSprite]) -> setFrameDirection(1);
+          static_cast<Rayman *>(sprites[currentSprite]) -> setFaceDirection(1);
         }
       }
       if ( keystate[SDLK_s] && keepTouch) {//keep crawing position
           if(currentSprite == 0){
-            sprites[currentSprite] -> setIsCrawl(true);
+            static_cast<Rayman *>(sprites[currentSprite]) -> setIsCrawl(true);
           }
       }
 
       if ( keystate[SDLK_s] && keystate[SDLK_d] ) {//right crawing
           if(currentSprite == 0){
-            sprites[currentSprite] -> setIsCrawl(true);
-            sprites[currentSprite] -> setFrameDirection(1);
-            sprites[currentSprite] -> setFaceDirection(1);
+            static_cast<Rayman *>(sprites[currentSprite]) -> setIsCrawl(true);
+            static_cast<Rayman *>(sprites[currentSprite]) -> setFrameDirection(1);
+            static_cast<Rayman *>(sprites[currentSprite]) -> setFaceDirection(1);
           }
       }
       if ( keystate[SDLK_s] && keystate[SDLK_a] ) {//left crawing
           if(currentSprite == 0){
-            sprites[currentSprite] ->setIsCrawl(true);
-            sprites[currentSprite] -> setFrameDirection(-1);
-            sprites[currentSprite] -> setFaceDirection(-1);
+            static_cast<Rayman *>(sprites[currentSprite]) -> setIsCrawl(true);
+            static_cast<Rayman *>(sprites[currentSprite]) -> setFrameDirection(-1);
+            static_cast<Rayman *>(sprites[currentSprite]) -> setFaceDirection(-1);
           }
       }
 
       if ( keystate[SDLK_w] && keystate[SDLK_d] ) {//right jumping
           if(currentSprite == 0){
-            sprites[currentSprite] -> setIsJump(true);
-            sprites[currentSprite] -> setFrameDirection(1);
-            sprites[currentSprite] -> setFaceDirection(1);
+            static_cast<Rayman *>(sprites[currentSprite]) -> setIsJump(true);
+            static_cast<Rayman *>(sprites[currentSprite]) -> setFrameDirection(1);
+            static_cast<Rayman *>(sprites[currentSprite]) -> setFaceDirection(1);
           }
       }
       if ( keystate[SDLK_w] && keystate[SDLK_a] ) {//left jumping
           if(currentSprite == 0){
-            sprites[currentSprite] ->setIsJump(true);
-            sprites[currentSprite] -> setFrameDirection(-1);
-            sprites[currentSprite] -> setFaceDirection(-1);
+            static_cast<Rayman *>(sprites[currentSprite]) -> setIsJump(true);
+            static_cast<Rayman *>(sprites[currentSprite]) -> setFrameDirection(-1);
+            static_cast<Rayman *>(sprites[currentSprite]) -> setFaceDirection(-1);
           }
       }
 
-      if ( keystate[SDLK_w] && keystate[SDLK_a] ) {//left jumping
-          if(currentSprite == 0){
-            sprites[currentSprite] ->setIsJump(true);
-            sprites[currentSprite] -> setFrameDirection(-1);
-            sprites[currentSprite] -> setFaceDirection(-1);
-          }
-      }
       if ( keystate[SDLK_f] && keepTouch ) {//left jumping
           if (stopWatch){
             stopWatch_Begin = clock.getSeconds();
@@ -418,15 +411,16 @@ void Manager::play() {
           }
 
           if( currentSprite == 0 ){
-            sprites[currentSprite] -> setFistDuration( clock.getSeconds() - stopWatch_Begin );
-            sprites[currentSprite] -> setFrameDirection(0);
-            sprites[currentSprite] -> setIsFist(true);
-            sprites[currentSprite] -> setIsCrawl(false);
+            static_cast<Rayman *>(sprites[currentSprite]) -> setFistDuration( clock.getSeconds() - stopWatch_Begin );
+            static_cast<Rayman *>(sprites[currentSprite]) -> setFrameDirection(0);
+            static_cast<Rayman *>(sprites[currentSprite]) -> setIsFist(true);
+            static_cast<Rayman *>(sprites[currentSprite]) -> setIsCrawl(false);
           }
       }
     }
+
     if (currentSprite == 0 && !keepTouch){
-          sprites[currentSprite] -> setFrameDirection(0);
+          static_cast<Rayman *>(sprites[currentSprite]) -> setFrameDirection(0);
     }
     
     draw();

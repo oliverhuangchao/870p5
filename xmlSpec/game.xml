@@ -70,7 +70,7 @@
 
 <pinkGear>
   <file>images/pinkGear.png</file>
-  <count>1</count>
+  <count>3</count>
   <srcX>0</srcX>
   <srcY>0</srcY>
   <startLoc x="500" y="500"/> 

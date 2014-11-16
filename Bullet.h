@@ -23,13 +23,15 @@ public:
   int getSpeed(){return fistSpeed;}
   void setSpeed(int x){fistSpeed = x;}
 
-
+  void setFaceDirection(int x){faceDirection = x;}
+  int getFaceDirection(){return faceDirection;}
 private:
   const Frame * frame;
   int frameWidth;
   int frameHeight;
 
   int fistSpeed;
+  int faceDirection;
 
   int worldWidth;
   int worldHeight;
