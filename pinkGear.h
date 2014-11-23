@@ -23,6 +23,8 @@ public:
   void setMoveRange(int x){moveRange = x;}
   int getDistance(const pinkGear*) const;
 
+  bool getAlreadyHit() const {return moveRange;}
+  void setAlreadyHit(bool x){alreadyHit = x;}
 private:
   const Frame * frame;
   int frameWidth;
@@ -32,7 +34,7 @@ private:
   int moveRange;
   int startX;
   int startY;
-
+  bool alreadyHit;
   // the explosion part of this sprite
   //std::list<Chunk> chunks; // An ExplodingSprite is a list of sprite chunks
   //std::list<Chunk> freeList; // When a chunk gets out of range it goes here

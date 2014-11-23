@@ -7,7 +7,7 @@ pinkGear::~pinkGear(){}
 
 pinkGear::pinkGear(const std::string& name, const int order) :
   Drawable(name,
-           Vector2f(Gamedata::getInstance().getXmlInt(name+"/startLoc/x"), 
+           Vector2f(Gamedata::getInstance().getXmlInt(name+"/startLoc/x")+rand()%100*5, 
                     Gamedata::getInstance().getXmlInt(name+"/startLoc/y")), 
            Vector2f(0, 0),
            order,
@@ -21,7 +21,8 @@ pinkGear::pinkGear(const std::string& name, const int order) :
   worldHeight(Gamedata::getInstance().getXmlInt("world/height")),
   moveRange( Gamedata::getInstance().getXmlInt(name+"/moveRange") ),
   startX( Gamedata::getInstance().getXmlInt(name+"/startLoc/x")),
-  startY( Gamedata::getInstance().getXmlInt(name+"/startLoc/y"))
+  startY( Gamedata::getInstance().getXmlInt(name+"/startLoc/y")),
+  alreadyHit(false)
   { }
 
 pinkGear::pinkGear(const string& n, const Vector2f& pos, const Vector2f& vel, const int order):
@@ -33,7 +34,8 @@ pinkGear::pinkGear(const string& n, const Vector2f& pos, const Vector2f& vel, co
   worldHeight(Gamedata::getInstance().getXmlInt("world/height")),
   moveRange ( 100 ),
   startX (0),
-  startY (0)
+  startY (0),
+  alreadyHit(false)
 { }
 
 pinkGear::pinkGear(const string& n, const Vector2f& pos, const Vector2f& vel,
@@ -47,7 +49,8 @@ pinkGear::pinkGear(const string& n, const Vector2f& pos, const Vector2f& vel,
   worldHeight(Gamedata::getInstance().getXmlInt("world/height")),
   moveRange ( 100 ),
   startX (0),
-  startY (0)
+  startY (0),
+  alreadyHit(false)
 { }
 
 pinkGear::pinkGear(const pinkGear& s) :
@@ -59,7 +62,8 @@ pinkGear::pinkGear(const pinkGear& s) :
   worldHeight(Gamedata::getInstance().getXmlInt("world/height")),
   moveRange ( s.moveRange ),
   startX ( s.startX ),
-  startY ( s.startY )
+  startY ( s.startY ),
+  alreadyHit(false)
 {}
 
 pinkGear& pinkGear::operator=(const pinkGear& rhs) {
@@ -72,6 +76,7 @@ pinkGear& pinkGear::operator=(const pinkGear& rhs) {
   moveRange = rhs.moveRange;
   startX = rhs.startX;
   startY = rhs.startY;
+  alreadyHit = rhs.alreadyHit;
   return *this;
 }
 

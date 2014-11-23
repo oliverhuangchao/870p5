@@ -40,14 +40,13 @@ makeVideo( false ),
 eatStar( false ),
 isShowHug ( false ),
 singlePostion( 0 ),
-//conflictScale( Gamedata::getInstance().getXmlInt("conflict") ),
+
 stopWatch(true),
 stopWatch_Begin(0),
 stopWatch_End(0),
 fistStartPos(0),
 fistReadyToTurn(false),
-alreadyHit(false),
-//isReset(false),
+//alreadyHit(false),
 
 frameCount( 0 ),
 username(  Gamedata::getInstance().getXmlStr("username") ),
@@ -64,7 +63,7 @@ frameMax( Gamedata::getInstance().getXmlInt("frameMax") )
     sprites.push_back( new Rayman("Rayman","runRight", singlePostion) );
     ++singlePostion;
 
-    //set the pinkGears
+    //-------set the pinkGears-----------
     for (int i = 0; i < Gamedata::getInstance().getXmlInt("pinkGear/count"); i++){
       sprites.push_back( new pinkGear("pinkGear",singlePostion) );
       ++singlePostion;
@@ -156,7 +155,7 @@ void Manager::update() {
     
   Uint32 ticks = clock.getElapsedTicks();
   
-  sprites[0]->update(ticks);//update our hero
+  sprites[0]->update(ticks);//update our hero Rayman
 
   for (unsigned int i = 1; i < sprites.size(); ++i){// update pinkGear start @ 1 position
     
@@ -176,13 +175,15 @@ void Manager::update() {
     }
     else{
       sprites[i]->update(ticks);
-      if (spriteConflict(sprites[i], sprites[fistStartPos]) && !alreadyHit && fistStartPos != 0){
+      if (spriteConflict(sprites[i], sprites[fistStartPos]) 
+          && static_cast <pinkGear*> (sprites[i])-> getAlreadyHit()
+          && fistStartPos != 0){// if the fist hit the sprite
 
         pinkGear *tmp = static_cast<pinkGear*>(sprites[i]);   
 
         sprites[i] = new ExplodingSprite( *tmp );
 
-        alreadyHit = true;
+        static_cast<pinkGear*>(sprites[i])-> setAlreadyHit(true);
         
         delete tmp;
       }
