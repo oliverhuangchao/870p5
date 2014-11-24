@@ -38,13 +38,14 @@ currentSprite(0),
 
 makeVideo( false ),
 eatStar( false ),
-isShowHug ( false ),
+isShowHug ( true ),
 singlePostion( 0 ),
 
 stopWatch(true),
 stopWatch_Begin(0),
 stopWatch_End(0),
 fistStartPos(0),
+pinkGearStartPos(0),
 fistReadyToTurn(false),
 //alreadyHit(false),
 
@@ -64,6 +65,7 @@ frameMax( Gamedata::getInstance().getXmlInt("frameMax") )
     ++singlePostion;
 
     //-------set the pinkGears-----------
+    pinkGearStartPos = singlePostion;
     for (int i = 0; i < Gamedata::getInstance().getXmlInt("pinkGear/count"); i++){
       sprites.push_back( new pinkGear("pinkGear",singlePostion) );
       ++singlePostion;
@@ -116,7 +118,13 @@ void Manager::draw() const {
     io.printMessageAt("press 'w' to jump", 20, linePos);
     linePos +=30;
 
-    io.printMessageAt("press 's' to crawling", 20, linePos);
+    io.printMessageAt("press 's' to crawl", 20, linePos);
+    linePos +=30;
+
+    io.printMessageAt("press 'f' to fight", 20, linePos);
+    linePos +=30;
+
+    io.printMessageAt("press 'r' to reset", 20, linePos);
     linePos +=30;
 
     //draw the lines
@@ -157,16 +165,15 @@ void Manager::update() {
   
   sprites[0]->update(ticks);//update our hero Rayman
 
-  for (unsigned int i = 1; i < sprites.size(); ++i){// update pinkGear start @ 1 position
-    
-    if ( fistStartPos != 0 && i >= fistStartPos){
+  for (unsigned int i = 1; i < sprites.size(); ++i)// update pinkGear start @ 1 position
+  {
+    if(fistStartPos != 0 && i >= fistStartPos)//if fist exist and it is now update fist
+    {  
       sprites[i]->update(ticks, sprites[0]);
-
-      if( abs(sprites[i]->X() - sprites[0]->X()) > sprites[i]->getFistRange() ){
+      if(abs(sprites[i]->X() - sprites[0]->X()) > sprites[i]->getFistRange() ){
           fistReadyToTurn = true;
       }
-
-      if( spriteConflict(sprites[i],sprites[0]) && fistReadyToTurn){
+      if(spriteConflict(sprites[i],sprites[0]) && fistReadyToTurn){// the fist gets back to Rayman
         sprites.erase(sprites.begin() + i);
         fistStartPos = 0;
         fistReadyToTurn = false;
@@ -176,15 +183,11 @@ void Manager::update() {
     else{
       sprites[i]->update(ticks);
       if (spriteConflict(sprites[i], sprites[fistStartPos]) 
-          && static_cast <pinkGear*> (sprites[i])-> getAlreadyHit()
+          && !static_cast<pinkGear*>(sprites[i])-> getAlreadyHit()
           && fistStartPos != 0){// if the fist hit the sprite
-
         pinkGear *tmp = static_cast<pinkGear*>(sprites[i]);   
-
         sprites[i] = new ExplodingSprite( *tmp );
-
         static_cast<pinkGear*>(sprites[i])-> setAlreadyHit(true);
-        
         delete tmp;
       }
     }
@@ -349,6 +352,23 @@ void Manager::play() {
           case SDLK_w: 
             if(currentSprite == 0)
               static_cast<Rayman *>(sprites[currentSprite]) -> setIsJump(true);
+            break;
+          case SDLK_r:
+            if(fistStartPos != 0){
+              for (int i = pinkGearStartPos;i<fistStartPos;i++){
+                Drawable *tmp = sprites[i];   
+                sprites[i] = new pinkGear("pinkGear", i);
+                delete tmp;
+              }
+            }
+            else{
+              for (int i = pinkGearStartPos;i<sprites.size();i++){
+                Drawable *tmp = sprites[i];   
+                sprites[i] = new pinkGear("pinkGear", i);
+                delete tmp;
+              }
+            }
+            //std::cout<<"reset"<<std::endl;
             break;
           default:
             break;

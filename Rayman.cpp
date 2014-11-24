@@ -80,7 +80,15 @@ void Rayman::update(Uint32 ticks) {
   Vector2f incr = getVelocity() * static_cast<float>(ticks) * 0.001;
   setPosition(getPosition() + incr);
   
-  switch (frameDirection){
+  if ( X() < 0) {
+    velocityX( 0 );
+  }
+  if ( X() > worldWidth-frameWidth) {
+    velocityX( 0 );
+  }
+
+
+  switch(frameDirection){
       case 1: 
         if( !isCrawl && !isJump ){ // velocityX() != 500
           frames = FrameFactory::getInstance().getFrames(frameName, "runRight");
@@ -157,7 +165,6 @@ void Rayman::update(Uint32 ticks) {
             }
             break;
         }
-        
         break;
 
       default:

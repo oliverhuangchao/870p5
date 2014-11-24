@@ -23,7 +23,7 @@ public:
   void setMoveRange(int x){moveRange = x;}
   int getDistance(const pinkGear*) const;
 
-  bool getAlreadyHit() const {return moveRange;}
+  bool getAlreadyHit() const {return alreadyHit;}
   void setAlreadyHit(bool x){alreadyHit = x;}
 private:
   const Frame * frame;

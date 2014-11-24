@@ -112,7 +112,7 @@ void Sprite::update(Uint32 ticks, Drawable *BrotherSprite) {
 
   float fixRadius = -100 + sqrt( pow(BrotherSprite->getFrameWidth() ,2) + pow(BrotherSprite->getFrameHeight(), 2) ) ;
 
-  if ( Y() > centerY && X() > centerX) {//4 area
+  if( Y() > centerY && X() > centerX) {//4 area
     theta = atan((Y()-centerY)/(X()-centerX));
 
     X(fixRadius * cos(theta) + centerX );  Y(fixRadius * sin(theta) + centerY );

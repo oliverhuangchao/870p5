@@ -39,12 +39,10 @@ private:
   float stopWatch_End;//end a stopwatch
 
 
-  int fistStartPos;//the order number of the fist
+  int fistStartPos;//the first position for fist
+  int pinkGearStartPos;//the first position for pinkGear
   bool fistReadyToTurn;//fist ready to turn
-  //bool alreadyHit;//whether the fist already touch the pinkGear;
-
-
-  //bool isRest;
+  
 
   int frameCount;
   const std::string username;
