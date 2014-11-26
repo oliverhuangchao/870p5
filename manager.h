@@ -5,7 +5,8 @@
 #include "world.h"
 #include "viewport.h"
 #include "drawable.h"
-
+#include "health.h"
+#include "sound.h"
 class Manager {
 public:
   Manager ();
@@ -22,7 +23,8 @@ private:
   
   World world_back;
   World world_front;
-  
+  Health bar;
+  SDLSound sound;
   Viewport& viewport;
 
   std::vector<Drawable*> sprites;

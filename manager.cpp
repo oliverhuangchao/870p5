@@ -32,6 +32,8 @@ clock( Clock::getInstance() ),
 screen( io.getScreen() ),
 world_back("back", Gamedata::getInstance().getXmlInt("back/factor") ),
 world_front("front", Gamedata::getInstance().getXmlInt("front/factor") ),
+bar(screen),
+sound(),
 viewport( Viewport::getInstance() ),
 sprites(),
 currentSprite(0),
@@ -47,7 +49,6 @@ stopWatch_End(0),
 fistStartPos(0),
 pinkGearStartPos(0),
 fistReadyToTurn(false),
-//alreadyHit(false),
 
 frameCount( 0 ),
 username(  Gamedata::getInstance().getXmlStr("username") ),
@@ -79,8 +80,8 @@ void Manager::draw() const {
   const Uint32 BLUE = SDL_MapRGB(screen->format, 0, 0, 0xFF);
 
   world_back.draw();
-
   world_front.draw();
+  bar.draw();
 
   for (unsigned i = 0; i < sprites.size(); ++i) {
     sprites[i]->draw();
@@ -159,10 +160,10 @@ void Manager::update() {
   ++clock;
   world_back.update();
   world_front.update();
- 
+  
     
   Uint32 ticks = clock.getElapsedTicks();
-  
+  bar.update(ticks);
   sprites[0]->update(ticks);//update our hero Rayman
 
   for (unsigned int i = 1; i < sprites.size(); ++i)// update pinkGear start @ 1 position
@@ -185,6 +186,7 @@ void Manager::update() {
       if (spriteConflict(sprites[i], sprites[fistStartPos]) 
           && !static_cast<pinkGear*>(sprites[i])-> getAlreadyHit()
           && fistStartPos != 0){// if the fist hit the sprite
+        sound[0];
         pinkGear *tmp = static_cast<pinkGear*>(sprites[i]);   
         sprites[i] = new ExplodingSprite( *tmp );
         static_cast<pinkGear*>(sprites[i])-> setAlreadyHit(true);
@@ -201,7 +203,7 @@ void Manager::update() {
 }
 
 bool Manager::spriteConflict( Drawable* multi, Drawable* single ){
-  if ( getDistance(multi->X()+multi->getFrameWidth()/2, multi->Y()+multi->getFrameHeight()/2, single->X()+single->getFrameWidth()/2,single->Y() + single->getFrameHeight()/2, 100)){
+  if ( getDistance(multi->X()+multi->getFrameWidth()/2, multi->Y()+multi->getFrameHeight()/2, single->X()+single->getFrameWidth()/2,single->Y() + single->getFrameHeight()/2, 50)){
    
     return true;
   }
@@ -224,6 +226,7 @@ void Manager::play() {
   bool keyCatch = false;
   bool keepTouch = false;//keep touching the keyboard
 
+  //Health bar(screen);// create a health bar
   while ( not done ) {
 
     SDL_PollEvent(&event);
