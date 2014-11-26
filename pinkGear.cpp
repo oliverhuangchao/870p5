@@ -22,6 +22,7 @@ pinkGear::pinkGear(const std::string& name, const int order) :
   moveRange( Gamedata::getInstance().getXmlInt(name+"/moveRange") ),
   startX( Gamedata::getInstance().getXmlInt(name+"/startLoc/x")),
   startY( Gamedata::getInstance().getXmlInt(name+"/startLoc/y")),
+  currentHealth(Gamedata::getInstance().getXmlInt(name+"/fullHealth")),
   alreadyHit(false)
   { }
 
@@ -35,6 +36,7 @@ pinkGear::pinkGear(const string& n, const Vector2f& pos, const Vector2f& vel, co
   moveRange ( 100 ),
   startX (0),
   startY (0),
+  currentHealth(Gamedata::getInstance().getXmlInt(n+"/fullHealth")),
   alreadyHit(false)
 { }
 
@@ -50,6 +52,7 @@ pinkGear::pinkGear(const string& n, const Vector2f& pos, const Vector2f& vel,
   moveRange ( 100 ),
   startX (0),
   startY (0),
+  currentHealth(Gamedata::getInstance().getXmlInt(n+"/fullHealth")),
   alreadyHit(false)
 { }
 
@@ -63,6 +66,7 @@ pinkGear::pinkGear(const pinkGear& s) :
   moveRange ( s.moveRange ),
   startX ( s.startX ),
   startY ( s.startY ),
+  currentHealth( s.currentHealth),
   alreadyHit(false)
 {}
 
@@ -76,6 +80,7 @@ pinkGear& pinkGear::operator=(const pinkGear& rhs) {
   moveRange = rhs.moveRange;
   startX = rhs.startX;
   startY = rhs.startY;
+  currentHealth = rhs.currentHealth;
   alreadyHit = rhs.alreadyHit;
   return *this;
 }

@@ -19,8 +19,15 @@ bool getDistance(int a1,int a2, int b1, int b2, int value);
 Manager::~Manager() { 
   // These deletions eliminate "definitely lost" and
   // "still reachable"s in Valgrind.
+  //std::cout<<usedVector.size()<<'\t'<<freeVector.size()<<std::endl;
   for (unsigned i = 0; i < sprites.size(); ++i) {
     delete sprites[i];
+  }
+  if(freeVector.size()>0){
+    freeVector.clear();
+  }
+  if(usedVector.size()>0){
+    usedVector.clear();
   }
 }
 
@@ -32,10 +39,12 @@ clock( Clock::getInstance() ),
 screen( io.getScreen() ),
 world_back("back", Gamedata::getInstance().getXmlInt("back/factor") ),
 world_front("front", Gamedata::getInstance().getXmlInt("front/factor") ),
-bar(screen),
+bar("pinkGear",screen),
 sound(),
 viewport( Viewport::getInstance() ),
 sprites(),
+usedVector(),
+freeVector(),
 currentSprite(0),
 
 makeVideo( false ),
@@ -49,6 +58,9 @@ stopWatch_End(0),
 fistStartPos(0),
 pinkGearStartPos(0),
 fistReadyToTurn(false),
+onceTouch(false),
+
+unlimitedMode(false),
 
 frameCount( 0 ),
 username(  Gamedata::getInstance().getXmlStr("username") ),
@@ -70,8 +82,17 @@ frameMax( Gamedata::getInstance().getXmlInt("frameMax") )
     for (int i = 0; i < Gamedata::getInstance().getXmlInt("pinkGear/count"); i++){
       sprites.push_back( new pinkGear("pinkGear",singlePostion) );
       ++singlePostion;
+      //usedVector.push_back(sprites[i+1]);
     }
-  
+
+
+    for (int i = 1; i < singlePostion; i++){
+      usedVector.push_back(sprites[i]);
+      ExplodingSprite *tmp = new ExplodingSprite( *static_cast<pinkGear *>(sprites[i]) );
+      freeVector.push_back(tmp);
+    }
+
+    
     viewport.setObjectToTrack(sprites[currentSprite]);
 }
 
@@ -89,7 +110,7 @@ void Manager::draw() const {
   
   linePos = 20;
 
-  io.printMessageAt("press 'm' to show the huds", 20, linePos);
+  io.printMessageAt("press 'F1' to show the huds", 20, linePos);
   linePos +=30; 
 
   if(isShowHug){
@@ -104,28 +125,34 @@ void Manager::draw() const {
     io.printMessageAt("Author: Chao Huang", 20, linePos);
     linePos +=30; 
 
+    io.printMessageAt("current birds stored in usedVector", 20, linePos);
+    linePos +=30; 
+
+    io.printMessageAt("broken birds stored in freeVector", 20, linePos);
+    linePos +=30; 
+
     io.printMessageAt("Press T to switch sprites", 20, linePos);
     linePos +=30; 
 
-    io.printMessageAt("Choose the pinkGear and press 'e'", 20, linePos);
+    io.printMessageAt("press e to make game easier", 20, linePos);
     linePos +=30;
 
-    io.printMessageAt("press 'a' to turn left", 20, linePos);
+    io.printMessageAt("press a/d to turn left/right", 20, linePos);
     linePos +=30;
 
-    io.printMessageAt("press 'd' to turn right", 20, linePos);
+    io.printMessageAt("press w to jump", 20, linePos);
     linePos +=30;
 
-    io.printMessageAt("press 'w' to jump", 20, linePos);
+    io.printMessageAt("press s to crawl", 20, linePos);
     linePos +=30;
 
-    io.printMessageAt("press 's' to crawl", 20, linePos);
+    io.printMessageAt("press f to fight", 20, linePos);
     linePos +=30;
 
-    io.printMessageAt("press 'f' to fight", 20, linePos);
+    io.printMessageAt("press r to reset game", 20, linePos);
     linePos +=30;
 
-    io.printMessageAt("press 'r' to reset", 20, linePos);
+    io.printMessageAt("press F2 to make bird strong", 20, linePos);
     linePos +=30;
 
     //draw the lines
@@ -139,6 +166,12 @@ void Manager::draw() const {
     Draw_AALine(screen, right, buttom, right, top, 2.0f, BLUE);
     Draw_AALine(screen, right, top, left, top, 2.0f, BLUE);
 
+  }
+  if(unlimitedMode){
+    io.printMessageAt("unlimited health mode", 500, 50);
+  }
+  else{
+    io.printMessageAt("limited health mode", 500, 50);
   }
 
   viewport.draw();
@@ -158,18 +191,21 @@ void Manager::makeFrame() {
 
 void Manager::update() {
   ++clock;
+  
   world_back.update();
   world_front.update();
   
     
   Uint32 ticks = clock.getElapsedTicks();
-  bar.update(ticks);
+  
+
   sprites[0]->update(ticks);//update our hero Rayman
 
   for (unsigned int i = 1; i < sprites.size(); ++i)// update pinkGear start @ 1 position
   {
-    if(fistStartPos != 0 && i >= fistStartPos)//if fist exist and it is now update fist
-    {  
+    //Begin to update the relationship between fist and Rayman
+    //if fist exist and it is now update fist
+    if(fistStartPos != 0 && i >= fistStartPos){  
       sprites[i]->update(ticks, sprites[0]);
       if(abs(sprites[i]->X() - sprites[0]->X()) > sprites[i]->getFistRange() ){
           fistReadyToTurn = true;
@@ -179,18 +215,41 @@ void Manager::update() {
         fistStartPos = 0;
         fistReadyToTurn = false;
         singlePostion--;
+        onceTouch = false;//so the fist can hit the bird again
       }
     }
-    else{
+    else{// if the fist hit the sprite
       sprites[i]->update(ticks);
       if (spriteConflict(sprites[i], sprites[fistStartPos]) 
           && !static_cast<pinkGear*>(sprites[i])-> getAlreadyHit()
-          && fistStartPos != 0){// if the fist hit the sprite
+          && fistStartPos != 0
+          && !onceTouch){
+
+        //give a sound to the sprite
         sound[0];
-        pinkGear *tmp = static_cast<pinkGear*>(sprites[i]);   
-        sprites[i] = new ExplodingSprite( *tmp );
-        static_cast<pinkGear*>(sprites[i])-> setAlreadyHit(true);
-        delete tmp;
+        onceTouch = true;
+        int chealth;
+        //the health bar get shorter
+        if(!unlimitedMode){
+          chealth = static_cast<pinkGear*>(sprites[i])->getCurrentHealth();
+          static_cast<pinkGear*>(sprites[i])->setCurrentHealth(--chealth);
+          bar.update(chealth);
+        }
+
+        //if the health bar equal to zero
+        if(chealth == 0){
+
+          pinkGear *tmp = static_cast<pinkGear*>(sprites[i]);   
+          sprites[i] = new ExplodingSprite( *tmp );
+          static_cast<pinkGear*>(sprites[i])-> setAlreadyHit(true);
+          delete tmp;
+          
+          /*
+            std::cout<<"hello"<<std::endl;
+            sprites[i] = freeVector[i];
+          */
+          }
+
       }
     }
   }
@@ -226,12 +285,10 @@ void Manager::play() {
   bool keyCatch = false;
   bool keepTouch = false;//keep touching the keyboard
 
-  //Health bar(screen);// create a health bar
   while ( not done ) {
 
     SDL_PollEvent(&event);
     Uint8 *keystate = SDL_GetKeyState(NULL);
-    //const Uint8 *state = SDL_GetKeyboardState(NULL);
     if(event.type ==  SDL_QUIT) { done = true; break; }
 //-------------------- key UP function Add here--------------
     if(event.type == SDL_KEYUP) { // if anykey is up then see which key
@@ -345,11 +402,15 @@ void Manager::play() {
             std::cout << "Making video frames" << std::endl;
             makeVideo = true;
             break;
-          case SDLK_e:
-            if (currentSprite > 0)
-                sprites[currentSprite] -> setIsMoved(! sprites[currentSprite] -> getIsMoved());
+          case SDLK_F2:
+            unlimitedMode = !unlimitedMode;
             break;
-          case SDLK_m:
+          case SDLK_e://if they are pinkGear
+            for (int i=1;i<sprites.size();i++){
+              sprites[i] -> setIsMoved(! sprites[i] -> getIsMoved());
+            }
+            break;
+          case SDLK_F1:
             isShowHug = !isShowHug;
             break;
           case SDLK_w: 
@@ -368,10 +429,19 @@ void Manager::play() {
               for (int i = pinkGearStartPos;i<sprites.size();i++){
                 Drawable *tmp = sprites[i];   
                 sprites[i] = new pinkGear("pinkGear", i);
+                //sprites[i] = freeVector[0];
+                //freeVector.erase(freeVector.begin()+i);
                 delete tmp;
               }
+               /* 
+              for (int i = 0;i<freeVector.size();i++){
+                Drawable *tmp = sprites[i];   
+                sprites[i] = new pinkGear("pinkGear", i);
+                //sprites[i] = freeVector[0];
+                //freeVector.erase(freeVector.begin()+i);
+                delete tmp;
+              }*/
             }
-            //std::cout<<"reset"<<std::endl;
             break;
           default:
             break;
@@ -451,7 +521,6 @@ void Manager::play() {
     update();
   }
 }
-
 bool Manager::stopGame(){
   for (int i = singlePostion ; i< (int)sprites.size(); i++){
     if (sprites[i]->getFrameFollower() == -1)

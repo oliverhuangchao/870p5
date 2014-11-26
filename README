@@ -4,40 +4,60 @@ Clemson Email Address: chaoh@g.clemson.edu
 
 Cpsc: 8700. Software engineering
 
-Project No:	5
+Project No:	6
 
-Project Due date:	Nov. 09th, 2014
+Project Due date:	Nov. 26th, 2014
 
 --------------------------------------------
 
-Project basic description:
+Project basic functions:
 
 This project is just the begining of my final work. 
-1. I add two different sprite this time: pinkGear which is a flying bird and Rayman which is our hero.
-2. Parallax scrolling. So the tree and sky can move seperately.
-3. huds. You can press 'm' to see how to operate this game
+
+1. Our hero now can use fist to punch the pink bird (press f)
+
+2. He can jump (press w) and crawl (press s)
+
+3. The fist can follow his figure
+
+4. The pink bird will explore after three punches. You can also set it in xml
+
+5. I add a health bar in this game. You can also press F2 to make the bird have unlimited health (each bird has its own health bar)
+
+6. You can press 'F1' to see how to operate this game
+
+7. I add a sound in this game. 
+
+8. I add a object pooling model in this game
+
+9. I add a reset function this game. Press 'r'
+
+10. In order to make the user convenient with my game. I make the hud visiable for ever unless you press F1. So the hud will not disappear after 3s. I believe this design will make sense.
+
+11. You can also press 'e' to make this game more easier.
 
 *****************************
-1. Background
 
-In this project, I want to reshow my previous game named "Rayman".  That is a great game and gives me a happy 
-childhood. I really want to thanks Ubisoft and their hero 'Rayman'. Also I should thanks Dr. Malloy. It is his great effort that teaches me how to do vedio games.
-
-So this time, I want to use my power to implement it again as a kind of souvenir.
-
-The figure name is 'Rayman'.
-*****************************
 2. How does he play
 run left: press 'a'
 run right: press 'd'
 jump: press 'w'
 crawl: press 'd'
+fist: press 'f'
+reset: press r
+make easier: press 'e'
+show hud: press F2
 
 *****************************
-3. furture works
-a. He can punch his fist to his enemy (maybe achieve it in the furture work)
-b. The background can changed which means the user can choose the background. Each background should represent different motif. 
-c. What is the style of the game? Our hero can use his fist and jump abaility to get to the final gate to win the success.
+
+3. Object pooling:
+I store the pink bird in usedVector and exloresion in freeVector. 
+These two vector will exchange their data to the sprites.
+
+
+3. furture works: Game strategy
+
+Rayman should go to another place with the bird after he defeat the bird
 
 
 PS:

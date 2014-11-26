@@ -28,6 +28,9 @@ private:
   Viewport& viewport;
 
   std::vector<Drawable*> sprites;
+  std::vector<Drawable*> usedVector;
+  std::vector<Drawable*> freeVector;
+
   int currentSprite;
 
   bool makeVideo;
@@ -44,7 +47,9 @@ private:
   int fistStartPos;//the first position for fist
   int pinkGearStartPos;//the first position for pinkGear
   bool fistReadyToTurn;//fist ready to turn
-  
+  bool onceTouch;//the fist alrealy hit the pinkGear, so the one fist can just hit once
+
+  bool unlimitedMode;//mode: the pinkGear will not disapear
 
   int frameCount;
   const std::string username;

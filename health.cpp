@@ -1,10 +1,11 @@
 #include "health.h"
 
-Health::Health(SDL_Surface* des_screen) :
+Health::Health(const std::string& name, SDL_Surface* des_screen) :
   screen(des_screen),
   start(Vector2f(500, 100)), 
   totalLength(200), 
   currentLength(200), 
+  step(Gamedata::getInstance().getXmlInt(name+"/fullHealth")),
   thick(14), 
   increments(1),
   interval(1000),
@@ -57,10 +58,14 @@ void Health::draw() const {
                       start[0]+currentLength, start[1], 
                       thick, color);
 }
-void Health::update(Uint32 ticks) {
-  deltaTime += ticks;
+// do something in update function
+void Health::update(int x) {//Uint32 ticks
+  //deltaTime += ticks;
+/*
   if ( currentLength > 0 && deltaTime > interval ) {
     deltaTime = 0;
     currentLength -= increments;
   }
+ */
+  currentLength =  200/step*x;
 }

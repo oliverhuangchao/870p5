@@ -4,17 +4,18 @@
 
 class Health {
 public:
-  Health(SDL_Surface*);
+  Health(const std::string&, SDL_Surface*);
   Health(SDL_Surface*, int sx, int sy, int tl, int cl, 
          float t, int inc, Uint32 c, float sp);
   void draw() const;
-  void update(Uint32);
+  void update(int);//Uint32
   void reset() { currentLength = totalLength; }
 private:
   SDL_Surface* screen;
   Vector2f start;
   int totalLength;
   int currentLength;
+  int step;//how many step for each health bar
   int thick;
   int increments;
   float interval;

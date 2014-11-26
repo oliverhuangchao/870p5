@@ -25,6 +25,9 @@ public:
 
   bool getAlreadyHit() const {return alreadyHit;}
   void setAlreadyHit(bool x){alreadyHit = x;}
+
+  int  getCurrentHealth() const {return currentHealth;}
+  void setCurrentHealth(int x){currentHealth = x;}
 private:
   const Frame * frame;
   int frameWidth;
@@ -34,7 +37,8 @@ private:
   int moveRange;
   int startX;
   int startY;
-  bool alreadyHit;
+  int currentHealth;//current health for each pinkGear
+  bool alreadyHit;//whether the pinkGear is hit or not
   // the explosion part of this sprite
   //std::list<Chunk> chunks; // An ExplodingSprite is a list of sprite chunks
   //std::list<Chunk> freeList; // When a chunk gets out of range it goes here
