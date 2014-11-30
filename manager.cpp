@@ -12,8 +12,6 @@
 #include "explodingSprite.h"
 #include <cmath>
 
-
-
 bool getDistance(int a1,int a2, int b1, int b2, int value);
 
 Manager::~Manager() { 
@@ -85,7 +83,6 @@ frameMax( Gamedata::getInstance().getXmlInt("frameMax") )
       //usedVector.push_back(sprites[i+1]);
     }
 
-
     for (int i = 1; i < singlePostion; i++){
       usedVector.push_back(sprites[i]);
       ExplodingSprite *tmp = new ExplodingSprite( *static_cast<pinkGear *>(sprites[i]) );
@@ -94,6 +91,26 @@ frameMax( Gamedata::getInstance().getXmlInt("frameMax") )
 
     
     viewport.setObjectToTrack(sprites[currentSprite]);
+}
+
+
+void Manager::setNumberOfSprites(int number) {//set the number of sprite in the game
+  /*
+  if ( number > static_cast<int>( sprites.size() ) ) {
+    number = (number - sprites.size())/2;
+    for (int i = 0; i < number; ++i) {
+      sprites.push_back( new Sprite("redstar") );
+      sprites.push_back( new Sprite("greenorb") );
+    }
+  }
+  else {
+    number = sprites.size() - number;
+    for (int i = 0; i < number; ++i) {
+      delete sprites.back();
+      sprites.pop_back();
+    }
+  }
+  */
 }
 
 void Manager::draw() const {

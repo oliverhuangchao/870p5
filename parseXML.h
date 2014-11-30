@@ -27,6 +27,10 @@ public:
   static void wrapper4End(void *data, const char *el);
   static void wrapper4Chars(void *data, const char *text, int textlen);
 
+  int getXmlInt(const string&) const;
+  float getXmlFloat(const string&) const;
+  const string& getXmlStr(const string&) const;
+
 private:
   const string filename;
   XML_Parser parser;

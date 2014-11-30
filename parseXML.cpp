@@ -116,3 +116,39 @@ void ParseXML::wrapper4Chars(void *data, const char *text, int textlen) {
   parser->chars(text, textlen);
 }
 
+
+
+int ParseXML::getXmlInt(const string& tag) const {
+  std::map<string, string>::const_iterator ptr = xmlData.find(tag);
+  if ( ptr == xmlData.end() )
+    throw string("Didn't find integer tag ")+tag+string(" in xml");
+  else {
+    std::stringstream strm;
+    strm << ptr->second;
+    int data;
+    strm >> data;
+    return data;
+  }
+}
+
+float ParseXML::getXmlFloat(const string& tag) const {
+  std::map<string, string>::const_iterator ptr = xmlData.find(tag);
+  if ( ptr == xmlData.end() )
+    throw string("Didn't find float tag ")+tag+string(" in xml");
+  else {
+    std::stringstream strm;
+    strm << ptr->second;
+    float data;
+    strm >> data;
+    return data;
+  }
+}
+
+const string& ParseXML::getXmlStr(const string& tag) const {
+  std::map<string, string>::const_iterator ptr = xmlData.find(tag);
+  if ( ptr == xmlData.end() )
+    throw string("Didn't find string tag ")+tag+string(" in xml");
+  else return ptr->second;
+}
+
+

@@ -7,6 +7,7 @@
 #include "drawable.h"
 #include "health.h"
 #include "sound.h"
+
 class Manager {
 public:
   Manager ();
@@ -14,6 +15,11 @@ public:
   void play();
   bool spriteConflict( Drawable* multi, Drawable* single );
   bool stopGame();
+
+  void pause() { clock.pause(); }
+  void unpause() { clock.unpause(); }
+  void setNumberOfSprites(int);
+
 private:
   const bool env;
   const IOManager& io;
